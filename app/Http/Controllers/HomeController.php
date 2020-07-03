@@ -148,8 +148,10 @@ class HomeController extends Controller
 
 
 
+
                 session()->put('sid', $data[$i]->id);
                 session()->put('storeName', $data[$i]->name);
+                // session()->put('user_id', Auth::user()->iuserid);
                 // dd($data[$i]->id);
             } else {
                 // echo $i. "<br />". $data[$i]->id;

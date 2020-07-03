@@ -17,6 +17,7 @@ class User extends Authenticatable
      */
 
     protected $table = 'store_mw_users';
+    public $timestamps = false;
 
     protected $fillable = [
         'fname', 'lname', 'vemail', 'password', 'estatus',

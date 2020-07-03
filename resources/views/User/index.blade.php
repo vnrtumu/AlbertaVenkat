@@ -14,16 +14,12 @@
       </div>
     </div>
     <div class="container-fluid">
-
-      {{-- <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i>
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-      </div>
-
-
-      <div class="alert alert-success"><i class="fa fa-check-circle"></i>
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-      </div>
-       --}}
+        @if (session()->has('message'))
+            <div class="alert alert-success"><i class="fa fa-exclamation-circle"></i>
+                {{session()->get('message')}}
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+        @endif
       <div class="panel panel-default">
         <div class="panel-heading head_title">
           <h3 class="panel-title"> Users<i class="fa fa-list"></i> </h3>
@@ -110,7 +106,7 @@
                             </td>
 
                             <td class="text-left">
-                                <a href="data-toggle="tooltip" title="Edit" class="btn btn-sm btn-info edit_btn_rotate" ><i class="fa fa-pencil">&nbsp;&nbsp;Edit</i>
+                                <a href="{{ route('users.edit', $user->iuserid ) }}" title="Edit" class="btn btn-sm btn-info edit_btn_rotate" ><i class="fa fa-pencil">&nbsp;&nbsp;Edit</i>
                                 </a>
                             </td>
                         </tr>
@@ -121,10 +117,10 @@
             </div>
           </form>
 
-          {{-- <div class="row">
-            <div class="col-sm-6 text-left">></div>
+          <div class="row">
+            <div class="col-sm-6 text-left">{{ $users->links() }}</div>
             <div class="col-sm-6 text-right"></div>
-          </div> --}}
+          </div>
 
         </div>
       </div>

@@ -132,6 +132,16 @@
       </div>
     </div>
     <div class="container-fluid">
+
+        @if ($errors->any())
+        <div class="alert alert-danger">
+          <ul>
+            @foreach ($errors->all() as $error)
+              <li>{{$error}}</li>
+            @endforeach
+          </ul>
+        </div>
+        @endif
         {{-- <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i>
             <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div> --}}
@@ -148,7 +158,7 @@
                             <div class="container">
                                 <div class="row" id="device_control">
                                     <div class="form-group">
-                                        <input type="checkbox" name="device[]" value="web" id="fancy-checkbox-warning" autocomplete="off" class="web device" />
+                                        <input type="checkbox" name="device[]" value="web" id="fancy-checkbox-warning" autocomplete="off" class="web device"  />
                                         <div class="[ btn-group ]">
                                             <label for="fancy-checkbox-warning" class="[ btn btn-warning ]">
                                                 <span class="[ glyphicon glyphicon-ok ]"></span>
@@ -184,9 +194,9 @@
                                         </div>
                                     </div>
                                     <div class="control_system">
-                                    <button type="submit" id="saveUser" form="form-user" data-toggle="tooltip" title="Save" class="btn btn-primary save_btn_rotate"><i class="fa fa-save"></i>&nbsp;&nbsp;Save</button>
+                                    {{-- <button type="submit" id="saveUser" form="form-user" data-toggle="tooltip" title="Save" class="btn btn-primary save_btn_rotate"><i class="fa fa-save"></i>&nbsp;&nbsp;Save</button> --}}
 
-                                    {{-- <input type="submit" id="Submit" value="Save" class="btn btn-primary" disabled> --}}
+                                    <input type="submit" id="Submit" value="Save" class="btn btn-primary" disabled>
                                     <a href="{{ route('users') }}" data-toggle="tooltip" title="Cancel" class="btn btn-default cancel_btn_rotate"><i class="fa fa-reply"></i>&nbsp;&nbsp;Cancel</a>
                                     </div>
                                 </div>
@@ -197,9 +207,9 @@
                                     <div class="form-group required">
                                     <label class="col-sm-4 control-label" for="input-vfname">First Name</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="vfname" maxlength="25" value="" placeholder="" id="input-vfname" class="form-control" required/>
+                                        <input type="text" name="vfname" maxlength="25" value="{{ old('vfname') }}" placeholder="" id="input-vfname" class="form-control" required/>
 
-                                        <div class="text-danger"></div>
+                                        {{-- <div class="text-danger" id="vfnameError"></div> --}}
 
                                     </div>
                                     </div>
@@ -208,9 +218,9 @@
                                     <div class="form-group required">
                                     <label class="col-sm-4 control-label" for="input-vlname">Last Name</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="vlname" maxlength="25" value="" placeholder="" id="input-vlname" class="form-control" required/>
+                                        <input type="text" name="vlname" maxlength="25" value="{{ old('vlname') }}" placeholder="" id="input-vlname" class="form-control" required/>
 
-                                        <div class="text-danger"></div>
+                                        {{-- <div class="text-danger" id="vlnameError"></div> --}}
 
                                     </div>
                                     </div>
@@ -222,9 +232,9 @@
                                     <div class="form-group required">
                                     <label class="col-sm-4 control-label" for="input-vaddress1">Address-1</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="vaddress1" maxlength="75" value="" placeholder="" id="input-vaddress1" class="form-control" required/>
+                                        <input type="text" name="vaddress1" maxlength="75" value="{{ old('vaddress1') }}" placeholder="" id="input-vaddress1" class="form-control" required/>
 
-                                        <div class="text-danger"></div>
+                                        {{-- <div class="text-danger" id="addressError"></div> --}}
 
                                     </div>
                                     </div>
@@ -233,7 +243,7 @@
                                     <div class="form-group">
                                     <label class="col-sm-4 control-label" for="input-vaddress2">Address-2</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="vaddress2" maxlength="75" value="" placeholder="" id="input-vaddress2" class="form-control" />
+                                        <input type="text" name="vaddress2" maxlength="75" value="{{ old('vaddress2') }}" placeholder="" id="input-vaddress2" class="form-control" />
                                     </div>
                                     </div>
                                 </div>
@@ -244,7 +254,7 @@
                                     <div class="form-group">
                                     <label class="col-sm-4 control-label" for="input-city">City</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="vcity" maxlength="25" value="" placeholder="" id="input-city" class="form-control" />
+                                        <input type="text" name="vcity" maxlength="25" value="{{ old('vcity') }}" placeholder="" id="input-city" class="form-control" />
                                     </div>
                                     </div>
                                 </div>
@@ -252,7 +262,7 @@
                                     <div class="form-group">
                                     <label class="col-sm-4 control-label" for="input-state">State</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="vstate" maxlength="25" value="" placeholder="" id="input-state" class="form-control" />
+                                        <input type="text" name="vstate" maxlength="25" value="{{ old('vstate') }}" placeholder="" id="input-state" class="form-control" />
                                     </div>
                                     </div>
                                 </div>
@@ -263,7 +273,7 @@
                                     <div class="form-group">
                                     <label class="col-sm-4 control-label" for="input-zip">Zip</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="vzip" maxlength="10" value="" placeholder="" id="input-zip" class="form-control" />
+                                        <input type="text" name="vzip" maxlength="10" value="{{ old('vzip') }}" placeholder="" id="input-zip" class="form-control" />
                                     </div>
                                     </div>
                                 </div>
@@ -282,21 +292,23 @@
                                     <div class="form-group">
                                     <label class="col-sm-4 control-label" for="input-phone">Phone</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="vphone" maxlength="20" value="" placeholder="" id="input-phone" class="form-control" />
+                                        <input type="text" name="vphone" maxlength="20" value="{{ old('vphone') }}" placeholder="" id="input-phone" class="form-control" />
                                     </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group required">
-                                    <label class="col-sm-4 control-label" for="input-vusertype">User Type</label>
-                                    <div class="col-sm-8">
-                                        <select name="vusertype" id="input-vusertype" class="form-control" required>
-                                        <option value="">Select User Type</option>
-                                        <option value="1">Admin</option>
-                                        <option value="2">Cashier </option>
-                                        <option value="3">Manager</option>
-                                        </select>
-                                    </div>
+                                        <label class="col-sm-4 control-label" for="input-vusertype">User Type</label>
+                                        <div class="col-sm-8">
+                                            <select name="vusertype" id="input-vusertype" class="form-control" required>
+                                            <option value="">Select User Type</option>
+                                            @foreach ($mstPermissiongroup as $group)
+                                                <option value="{{$group->vgroupname}}">{{$group->vgroupname}}</option>
+                                            @endforeach
+                                            </select>
+                                            {{-- <div class="text-danger" id="usertypeError"></div> --}}
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -317,8 +329,8 @@
                                         <label class="col-sm-4 control-label" for="input-vpasswordchange">Change Password at First Login</label>
                                         <div class="col-sm-8">
                                             <select name="vpasswordchange" id="input-vpasswordchange" class="form-control">
-                                            <option value="0" >No</option>
-                                            <option value="1" >Yes</option>
+                                                <option value="No" >No</option>
+                                                <option value="Yes" >Yes</option>
                                             </select>
                                         </div>
                                     </div>
@@ -329,7 +341,7 @@
                                     <div class="form-group">
                                     <label class="col-sm-4 control-label" for="input-vuserbarcode">Barcode #</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="vuserbarcode" maxlength="25" value="" placeholder="" id="input-vuserbarcode" class="form-control" />
+                                        <input type="text" name="vuserbarcode" maxlength="25" value="{{ old('vuserbarcode') }}" placeholder="" id="input-vuserbarcode" class="form-control" />
                                     </div>
                                     </div>
                                 </div>
@@ -338,10 +350,10 @@
                                     <label class="col-sm-4 control-label" for="input-estatus">Status</label>
                                     <div class="col-sm-8">
                                         <select name="estatus" id="input-estatus" class="form-control">
-                                            <option value="1" >Active</option>
-                                            <option value="0" >InActive</option>
+                                            <option value="Active" >Active</option>
+                                            <option value="InActive" >InActive</option>
                                         </select>
-                                        <div class="text-danger"></div>
+                                        {{-- <div class="text-danger"></div> --}}
                                     </div>
                                     </div>
                                 </div>
@@ -353,7 +365,7 @@
                                         <div class="form-group required">
                                         <label class="col-sm-4 control-label" for="input-email">Email</label>
                                         <div class="col-sm-8">
-                                            <input type="email" name="vemail" maxlength="125" value="" placeholder="" id="input-email" class="form-control webemail" />
+                                            <input type="email" name="vemail" maxlength="125" value="{{ old('vemail') }}" placeholder="" id="input-email" class="form-control webemail" />
                                             <div class="text-danger"></div>
                                         </div>
                                         </div>
@@ -388,7 +400,7 @@
                                             <div class="form-group required" >
                                             <label class="col-sm-4 control-label" for="input-vuserid">POS User ID</label>
                                             <div class="col-sm-8">
-                                                <input type="text" name="vuserid" maxlength="3" value="" placeholder="" id="input-vuserid" class="form-control posemail" />
+                                                <input type="text" name="vuserid" maxlength="3" value="{{ old('vuserid') }}" placeholder="" id="input-vuserid" class="form-control posemail" />
                                                 <div class="text-success" id="user-id-msg"></div>
 
                                                 <div class="text-danger"></div>
@@ -433,7 +445,7 @@
                                                     <tr>
                                                         <td>
                                                             <div class="custom-control custom-checkbox" id="table_orange_check">
-                                                                <input type="checkbox" class="checks check custom-control-input" id="customCheck5" name="permission[]" value="{{ $permission->vpermissionname }}">
+                                                                <input type="checkbox" class="checks check custom-control-input" id="customCheck5" name="permission[]" value="{{ $permission->vpermissioncode }}">
                                                             </div>
                                                         </td>
                                                         <td class="checks_content">
@@ -458,7 +470,7 @@
                                                 <tr>
                                                     <td>
                                                         <div class="custom-control custom-checkbox" id="table_blue_check">
-                                                            <input type="checkbox" class="checks check custom-control-input" id="customCheck5" name="permission[]" value="" >
+                                                            <input type="checkbox" class="checks check custom-control-input" id="customCheck5" name="permission[]" value="{{ $permission->vpermissioncode }}" >
 
                                                         </div>
                                                     </td>
@@ -480,7 +492,7 @@
                                                     <tr>
                                                         <td>
                                                             <div class="custom-control custom-checkbox" id="table_green_check">
-                                                                <input type="checkbox" class="checks check custom-control-input" id="customCheck5" name="permission[]" value="">
+                                                                <input type="checkbox" class="checks check custom-control-input" id="customCheck5" name="permission[]" value="{{ $permission->vpermissioncode }}">
                                                             </div>
                                                         </td>
                                                         <td class="checks_content"><span>{{ $permission->vpermissionname }}</span></td>
@@ -503,13 +515,13 @@
 
 @section('scripts')
 
-
-    <script>
-        $("#saveUser").click(function(){
-            $("#form-user").submit();
+    <script type="text/javascript">
+        $(window).load(function() {
+          $('#web_mob').hide();
+          $('#pos').hide();
+          $("div#divLoading").removeClass('show');
         });
-
-    </script>
+      </script>
 
     <script type="text/javascript">
       $(document).on('keyup', 'input[name="re_vpassword"]', function(event) {
@@ -565,15 +577,6 @@
         $("input[name='vphone']").mask("999-999-9999");
       });
     </script>
-
-    <script type="text/javascript">
-      $(window).load(function() {
-        $("div#divLoading").removeClass('show');
-      });
-    </script>
-
-
-
     <script>
 
     setInterval(function() {
@@ -598,14 +601,17 @@
 
     $(function () {
       $('.mob').change(function () {
+
          $('#web_mob').toggle(this.checked);
          if(this.checked){
              $('.webemail').prop('required', true);
-            //  $('.webpass').prop('required', true);
-            //  $('.webconpass').prop('required', true);
+             $('.webpass').prop('required', true);
+             $('.webconpass').prop('required', true);
              document.getElementById("Submit").disabled = false;
          }else{
              $('.webemail').prop('required', false);
+             $('.webpass').prop('required', true);
+             $('.webconpass').prop('required', true);
              document.getElementById("Submit").disabled = true;
          }
       }).change();
@@ -616,12 +622,40 @@
          $('#pos').toggle(this.checked);
          if(this.checked){
              $('.posemail').prop('required', true);
-             document.getElementById("Submit").disabled = false;
+            //  document.getElementById("Submit").disabled = false;
          }else{
              $('.posemail').prop('required', false);
-             document.getElementById("Submit").disabled = true;
+            //  document.getElementById("Submit").disabled = true;
          }
       }).change();
+    });
+
+//new code
+    $('.web').click(function () {
+        $('#web_mob').toggle(this.checked);
+        if(this.checked){
+            $('#web').show();
+        }else{
+            $('#web').hide();
+        }
+    });
+
+    $('.pos').click(function () {
+        $('#pos').toggle(this.checked);
+        if(this.checked){
+            $('#pos1').show();
+        }else{
+            $('#pos1').hide();
+        }
+    });
+
+    $('.mob').click(function () {
+        $('#web_mob').toggle(this.checked);
+        if(this.checked){
+            $('#mob').show();
+        }else{
+            $('#mob').hide();
+        }
     });
 
     $(function () {
@@ -646,32 +680,33 @@
     }
 
     if($(".pos").is(':checked')){
+        alert("hi");
         $('#pos1').show();
     }
+//==== old colde
+    // $('.web').click(function () {
+    //     if(this.checked){
+    //         $('#web').show();
+    //     }else{
+    //         $('#web').hide();
+    //     }
+    // });
 
-    $('.web').click(function () {
-        if(this.checked){
-            $('#web').show();
-        }else{
-            $('#web').hide();
-        }
-    });
+    // $('.pos').click(function () {
+    //     if(this.checked){
+    //         $('#pos1').show();
+    //     }else{
+    //         $('#pos1').hide();
+    //     }
+    // });
 
-    $('.pos').click(function () {
-        if(this.checked){
-            $('#pos1').show();
-        }else{
-            $('#pos1').hide();
-        }
-    });
-
-    $('.mob').click(function () {
-        if(this.checked){
-            $('#mob').show();
-        }else{
-            $('#mob').hide();
-        }
-    });
+    // $('.mob').click(function () {
+    //     if(this.checked){
+    //         $('#mob').show();
+    //     }else{
+    //         $('#mob').hide();
+    //     }
+    // });
 
     jQuery('#input-vusertype').change(function () {
         var selected_option = $('#input-vusertype').val();

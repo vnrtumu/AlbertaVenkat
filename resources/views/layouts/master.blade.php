@@ -82,7 +82,7 @@
 @show
 </head>
 <body style="background-color: #fff">
-    <div id="divLoading" class="show"></div>
+    {{-- <div id="divLoading" class="show"></div> --}}
     <header id="header" class="navbar navbar-static-top">
         <div class="navbar-header">
             @guest
@@ -153,7 +153,7 @@
                 <div style="margin-top: 10px;">
                   <h4>Venkat Reddy</h4>
                 </div>
-              </div>
+            </div>
             <ul id="menu" style="background-color:#636466;">
                 <li id="dashboard">
                     <a href="{{ route('dashboard') }}"><i class="fa fa-dashboard fa-fw"></i> <span>Dashboard</span></a>
@@ -166,6 +166,7 @@
                 </li>
             </ul>
         </nav>
+
 
         @section('main-content')
 

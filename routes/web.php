@@ -27,14 +27,15 @@ Auth::routes();
 Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 Route::post('/dashboard', 'HomeController@dashContent')->name('dashboard');
 
-Route::group(['middleware' => ['StoreDatabaseSelection']],function(){
+Route::group(['middleware' => ['auth','StoreDatabaseSelection']],function(){
     Route::get('users', 'AllUserController@index' )->name('users');
     Route::get('users/create', 'AllUserController@create' )->name('users.create');
-
-
+    Route::post('users/store', 'AllUserController@store' )->name('users.store');
+    Route::get('users/{iuserid}/edit', 'AllUserController@edit' )->name('users.edit');
+    Route::patch('users/update/{iuserid}', 'AllUserController@update' )->name('users.update');
 
 });
-Route::post('users/store', 'AllUserController@store' )->name('users.store');
+
 
 // Route::resource('users', 'AllUserController');
 
