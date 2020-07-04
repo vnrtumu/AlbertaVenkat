@@ -162,7 +162,7 @@
                                 <div class="row" id="device_control">
                                     <div class="form-group">
 
-                                        <input type="checkbox" name="device[]" value="web" id="fancy-checkbox-warning" autocomplete="off" class="web device" {{old('device[web]') ?? 'checked'}}  />
+                                        <input type="checkbox" name="device[]" value="web" id="fancy-checkbox-warning" autocomplete="off" class="web device"   />
                                         <div class="[ btn-group ]">
                                             <label for="fancy-checkbox-warning" class="[ btn btn-warning ]">
                                                 <span class="[ glyphicon glyphicon-ok ]"></span>
@@ -174,7 +174,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group required">
-                                        <input type="checkbox" name="device[]" value="mob" id="fancy-checkbox-primary" autocomplete="off" class="mob device" {{old('device[mob]') ?? 'checked'}} />
+                                        <input type="checkbox" name="device[]" value="mob" id="fancy-checkbox-primary" autocomplete="off" class="mob device" />
                                         <div class="[ btn-group ]">
                                             <label for="fancy-checkbox-primary" class="[ btn btn-primary ]">
                                                 <span class="[ glyphicon glyphicon-ok ]"></span>
@@ -186,7 +186,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group required">
-                                        <input type="checkbox" name="device[]" value="pos" id="fancy-checkbox-success" autocomplete="off" class="pos device" {{old('device[pos]') ?? 'checked'}} />
+                                        <input type="checkbox" name="device[]" value="pos" id="fancy-checkbox-success" autocomplete="off" class="pos device"  />
                                         <div class="[ btn-group ] required">
                                             <label for="fancy-checkbox-success" class="[ btn btn-success ]">
                                                 <span class="[ glyphicon glyphicon-ok ]"></span>
