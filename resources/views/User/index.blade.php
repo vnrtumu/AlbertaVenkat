@@ -134,6 +134,118 @@
         $("div#divLoading").removeClass('show');
     });
 </script>
+<script>
+    function myFunction() {
+      var result = confirm("Want to delete?");
+      if (result) {
+
+      $(document).on('click', '#user_delete', function(event) {
+        event.preventDefault();
+        // var delete_user_url = {{ url('users/remove') }};
+        // delete_user_url = delete_user_url.replace(/&amp;/g, '&');
+        var data = {};
+        // alert(delete_user_url);
+
+        if($("input[name='selected[]']:checked").length == 0){
+          bootbox.alert({
+            size: 'small',
+            title: "Attention",
+            message: 'Please Select user to Delete!',
+            callback: function(){}
+          });
+          return false;
+        }
+
+        $("input[name='selected[]']:checked").each(function (i)
+        {
+          data[i] = parseInt($(this).val());
+
+        });
+
+        console.log(data);
+        $("div#divLoading").addClass('show');
+
+        // $.ajax({
+        //     url : delete_user_url,
+        //     data : JSON.stringify(data),
+        //     type : 'POST',
+        //     contentType: "application/json",
+        //     dataType: 'json',
+        //   success: function(data) {
+
+        //     if(data.success){
+        //       $('#success_msg').html('<strong>'+ data.success +'</strong>');
+        //       $("div#divLoading").removeClass('show');
+        //       $('#successModal').modal('show');
+
+        //       setTimeout(function(){
+        //        $('#successModal').modal('hide');
+        //        window.location.reload();
+        //       }, 3000);
+        //     }else{
+
+        //       $('#error_msg').html('<strong>'+ data.error +'</strong>');
+        //       $("div#divLoading").removeClass('show');
+        //       $('#errorModal').modal('show');
+
+        //     }
+        //   },
+        //   error: function(xhr) { // if error occured
+        //     var  response_error = $.parseJSON(xhr.responseText); //decode the response array
+        //     var error_show = '';
+        //     if(response_error.error){
+        //       error_show = response_error.error;
+        //     }else if(response_error.validation_error){
+        //       error_show = response_error.validation_error[0];
+        //     }
+        //     $('#error_alias').html('<strong>'+ error_show +'</strong>');
+        //     $('#errorModal').modal('show');
+        //     return false;
+        //   }
+        // });
+      });
+    }
+}
+</script>
+
+
+<div class="modal fade" id="successModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header" style="border-bottom:none;">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-success text-center">
+            <p id="success_msg"></p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="modal fade" id="errorModal" role="dialog" style="z-index: 9999;">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header" style="border-bottom:none;">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-danger text-center">
+            <p id="error_msg"></p>
+          </div>
+        </div>
+        <div class="modal-footer" style="border-top: none;">
+        <button type="button" class="btn btn-info" data-dismiss="modal">OK</button>
+      </div>
+      </div>
+
+    </div>
+  </div>
 @endsection
 
 

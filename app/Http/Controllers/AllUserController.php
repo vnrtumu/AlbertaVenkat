@@ -412,14 +412,9 @@ class AllUserController extends Controller
     }
 
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\AllUser  $allUser
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(MstUser $mstUser)
+
+    public function remove(Request $request)
     {
-        //
+        dd($request);
     }
 }

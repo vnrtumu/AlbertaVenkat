@@ -123,6 +123,8 @@
 @endsection
 
 @section('main-content')
+{{ old('device') }}
+
 <div id="content">
     <div class="page-header">
       <div class="container-fluid">
@@ -132,6 +134,7 @@
       </div>
     </div>
     <div class="container-fluid">
+
 
         @if ($errors->any())
         <div class="alert alert-danger">
@@ -158,7 +161,8 @@
                             <div class="container">
                                 <div class="row" id="device_control">
                                     <div class="form-group">
-                                        <input type="checkbox" name="device[]" value="web" id="fancy-checkbox-warning" autocomplete="off" class="web device"  />
+
+                                        <input type="checkbox" name="device[]" value="web" id="fancy-checkbox-warning" autocomplete="off" class="web device" {{old('device[web]') ?? 'checked'}}  />
                                         <div class="[ btn-group ]">
                                             <label for="fancy-checkbox-warning" class="[ btn btn-warning ]">
                                                 <span class="[ glyphicon glyphicon-ok ]"></span>
@@ -170,7 +174,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group required">
-                                        <input type="checkbox" name="device[]" value="mob" id="fancy-checkbox-primary" autocomplete="off" class="mob device" />
+                                        <input type="checkbox" name="device[]" value="mob" id="fancy-checkbox-primary" autocomplete="off" class="mob device" {{old('device[mob]') ?? 'checked'}} />
                                         <div class="[ btn-group ]">
                                             <label for="fancy-checkbox-primary" class="[ btn btn-primary ]">
                                                 <span class="[ glyphicon glyphicon-ok ]"></span>
@@ -182,7 +186,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group required">
-                                        <input type="checkbox" name="device[]" value="pos" id="fancy-checkbox-success" autocomplete="off" class="pos device" />
+                                        <input type="checkbox" name="device[]" value="pos" id="fancy-checkbox-success" autocomplete="off" class="pos device" {{old('device[pos]') ?? 'checked'}} />
                                         <div class="[ btn-group ] required">
                                             <label for="fancy-checkbox-success" class="[ btn btn-success ]">
                                                 <span class="[ glyphicon glyphicon-ok ]"></span>
@@ -680,7 +684,6 @@
     }
 
     if($(".pos").is(':checked')){
-        alert("hi");
         $('#pos1').show();
     }
 //==== old colde

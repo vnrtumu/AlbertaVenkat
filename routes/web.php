@@ -33,9 +33,9 @@ Route::group(['middleware' => ['auth','StoreDatabaseSelection']],function(){
     Route::post('users/store', 'AllUserController@store' )->name('users.store');
     Route::get('users/{iuserid}/edit', 'AllUserController@edit' )->name('users.edit');
     Route::patch('users/update/{iuserid}', 'AllUserController@update' )->name('users.update');
-
+    Route::post('users/remove', 'AllUserController@remove')->name('users.remove');
 });
 
 
-// Route::resource('users', 'AllUserController');
+// Route::resource('users', 'AllUserController')
 
