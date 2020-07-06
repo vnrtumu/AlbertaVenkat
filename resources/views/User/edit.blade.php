@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
-
+@section('title')
+    Edit Users
+@stop
 @section('styles')
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
 <style>

@@ -1,29 +1,20 @@
 @extends('layouts.master')
 
+@section('title')
+    Alberta Payments
+@stop
+
 @section('main-content')
-{{-- {{ dd($output) }} --}}
 <div id="content">
     <div class="page-header">
       <div class="container-fluid">
         <!-- <h1></h1> -->
         <ul class="breadcrumb">
-
           <li><a href="">Dashboard</a></li>
-
         </ul>
-
       </div>
-      <!-- <br>
-      <div class="container-fluid" style="margin-bottom:-5px;">
-        <p><a style="font-size:14px;" class="btn btn-success" href="">Quick Links</a></p>
-      </div> -->
     </div>
     <div class="container-fluid">
-      {{-- <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i>
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-      </div> --}}
-
-
       <div class="panel panel-default" style="border-left:none;border-right:none;border-bottom:none;">
         <div class="panel-body dashboard_charts_title">
           <div class="row dashboard_amt">

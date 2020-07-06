@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@section('title')
+    Users
+@stop
+
 @section('main-content')
 {{-- {{ dd($users) }} --}}
 <div id="content">
@@ -25,12 +29,13 @@
           <h3 class="panel-title"> Users<i class="fa fa-list"></i> </h3>
 
         </div>
+
         <div class="panel-body">
           <div class="row" style="padding-bottom: 9px;float: right;">
             <div class="col-md-12">
               <div class="">
                 <a href="{{ route('users.create') }}" class="btn btn-primary add_new_btn_rotate"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add New</a>
-                <button type="button" class="btn btn-danger" id="user_delete" onclick="myFunction()" title="Delete" style="border-radius: 0px;"><i class="fa fa-trash"></i>&nbsp;&nbsp;Delete</button>
+                <button type="submit" class="btn btn-danger" id="user_delete" onclick="myFunction()" title="Delete" style="border-radius: 0px;"><i class="fa fa-trash"></i>&nbsp;&nbsp;Delete</button>
               </div>
             </div>
           </div>
@@ -44,8 +49,9 @@
           </div>
         </form>
          <br>
+         <form action="{{ route('users.remove') }}" method="post" enctype="multipart/form-data" id="form-users">
 
-          <form action="" method="post" enctype="multipart/form-data" id="form-users">
+            @csrf
             <input type="hidden" name="MenuId" value=""/>
             <div class="table-responsive">
               <table id="users" class="table table-bordered table-hover" style="">
@@ -70,7 +76,7 @@
                             <td data-order="" class="text-center">
                                 <span style="display:none;"></span>
                                 {{-- <input type="checkbox" name="selected[]" id="user[][select]" value="" checked="checked" /> --}}
-                                <input type="checkbox" name="selected[]" id="user[][select]"  value="" />
+                                <input type="checkbox" name="selected[]" id="user[][select]"  value="{{ $user->iuserid }}" />
                             </td>
 
                             <td class="text-left">
@@ -136,76 +142,13 @@
 </script>
 <script>
     function myFunction() {
-      var result = confirm("Want to delete?");
-      if (result) {
-
-      $(document).on('click', '#user_delete', function(event) {
-        event.preventDefault();
-        // var delete_user_url = {{ url('users/remove') }};
-        // delete_user_url = delete_user_url.replace(/&amp;/g, '&');
-        var data = {};
-        // alert(delete_user_url);
-
-        if($("input[name='selected[]']:checked").length == 0){
-          bootbox.alert({
-            size: 'small',
-            title: "Attention",
-            message: 'Please Select user to Delete!',
-            callback: function(){}
-          });
-          return false;
-        }
-
-        $("input[name='selected[]']:checked").each(function (i)
-        {
-          data[i] = parseInt($(this).val());
-
-        });
-
-        console.log(data);
-        $("div#divLoading").addClass('show');
-
-        // $.ajax({
-        //     url : delete_user_url,
-        //     data : JSON.stringify(data),
-        //     type : 'POST',
-        //     contentType: "application/json",
-        //     dataType: 'json',
-        //   success: function(data) {
-
-        //     if(data.success){
-        //       $('#success_msg').html('<strong>'+ data.success +'</strong>');
-        //       $("div#divLoading").removeClass('show');
-        //       $('#successModal').modal('show');
-
-        //       setTimeout(function(){
-        //        $('#successModal').modal('hide');
-        //        window.location.reload();
-        //       }, 3000);
-        //     }else{
-
-        //       $('#error_msg').html('<strong>'+ data.error +'</strong>');
-        //       $("div#divLoading").removeClass('show');
-        //       $('#errorModal').modal('show');
-
-        //     }
-        //   },
-        //   error: function(xhr) { // if error occured
-        //     var  response_error = $.parseJSON(xhr.responseText); //decode the response array
-        //     var error_show = '';
-        //     if(response_error.error){
-        //       error_show = response_error.error;
-        //     }else if(response_error.validation_error){
-        //       error_show = response_error.validation_error[0];
-        //     }
-        //     $('#error_alias').html('<strong>'+ error_show +'</strong>');
-        //     $('#errorModal').modal('show');
-        //     return false;
-        //   }
+    //   var result = confirm("Want to delete?");
+    //   if (result) {
+        // $('#user_delete').click(function(){
+            $("form-users").sumbit();
         // });
-      });
+    // }
     }
-}
 </script>
 
 

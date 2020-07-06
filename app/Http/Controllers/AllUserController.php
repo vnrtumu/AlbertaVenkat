@@ -12,6 +12,7 @@ use App\MstUserpermission;
 use Illuminate\Support\Facades\Auth;
 use App\MstPermissiongroup;
 use App\MstUserpermissiongroup;
+use Illuminate\Auth\Access\Gate;
 
 
 class AllUserController extends Controller
@@ -174,6 +175,8 @@ class AllUserController extends Controller
                         'password' => $encdoe_mwpassword,
                         'vemail' => $input['vemail'],
                     ]);
+
+
                 } else {
                     $encdoe_mwpassword = password_hash($input['mwpassword'], PASSWORD_BCRYPT);
                     $encdoe_password = $this->encodePassword($input['vpassword']);
@@ -415,6 +418,11 @@ class AllUserController extends Controller
 
     public function remove(Request $request)
     {
-        dd($request);
+        $delId = $request->all();
+        for($i = 0; $i < count($delId['selected']); $i++ ){
+            MstUser::where('iuserid', '=', $delId['selected'][$i] )->delete();
+            User::where('iuserid', '=', $delId['selected'][$i])->update(['estatus' => 'Inactive']);
+        }
+        return redirect('users')->with('message', 'User Deleted Successfully');
     }
 }

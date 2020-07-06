@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\MstUserpermission;
+use App\MstPermission;
+use App\MstUser;
 
 class HomeController extends Controller
 {
@@ -25,19 +28,25 @@ class HomeController extends Controller
      */
     public function index()
     {
+
         if (Auth::user()->user_role == "SuperAdmin") {
             $data = DB::table('store_mw_users')
                 ->join('user_stores', 'store_mw_users.iuserid', '=', 'user_stores.user_id')
                 ->join('stores', 'user_stores.store_id', '=', 'stores.id')
                 ->select('stores.id', 'stores.name', 'stores.db_name', 'stores.db_username', 'stores.db_password', 'stores.db_hostname')
                 ->get();
-        } else {
+        } elseif( Auth::user()->sid == 0) {
             $data = DB::table('store_mw_users')
                 ->join('user_stores', 'store_mw_users.iuserid', '=', 'user_stores.user_id')
                 ->join('stores', 'user_stores.store_id', '=', 'stores.id')
                 ->select('stores.id', 'stores.name', 'stores.db_name', 'stores.db_username', 'stores.db_password', 'stores.db_hostname')
                 ->where('store_mw_users.iuserid', '=', Auth::user()->iuserid)
                 ->get();
+        }else {
+            $data = DB::table('store_mw_users')
+                    ->join('stores', 'store_mw_users.sid', '=', 'stores.id')
+                    ->select('stores.id', 'stores.name', 'stores.db_name', 'stores.db_username', 'stores.db_password', 'stores.db_hostname')
+                    ->get();
         }
 
         config(['database.connections.mysql_dynamic' => [
@@ -52,6 +61,20 @@ class HomeController extends Controller
             'strict'    => false,
         ]]);
 
+
+        if(Auth::user()->user_role && Auth::user()->sid == 0){
+            $user_id = Auth::user()->iuserid;
+            $userPermsData = DB::connection('mysql_dynamic')->select("SELECT  mp.vpermissioncode FROM mst_permission mp join mst_userpermissions mup on mp.vpermissioncode = mup.permission_id where mp.vpermissiontype = 'WEB' and mup.status = 'Active' ");
+        }else{
+            $user_id = Auth::user()->iuserid;
+            $userPermsData = DB::connection('mysql_dynamic')->select("SELECT  mp.vpermissioncode FROM mst_permission mp join mst_userpermissions mup on mp.vpermissioncode = mup.permission_id where mp.vpermissiontype = 'WEB' and mup.status = 'Active' and mup.userid = ".$user_id);
+        }
+        for($i = 0; $i < count($userPermsData); $i++ ){
+            $permsData[] = $userPermsData[$i]->vpermissioncode;
+        }
+
+        session()->put('userPermsData', $permsData);
+
         session()->put('dbhost',  $data[0]->db_hostname);
         session()->put('dbname',  $data[0]->db_name);
         session()->put('dbuser',  $data[0]->db_username);
@@ -60,6 +83,7 @@ class HomeController extends Controller
         session()->put('sid', $data[0]->id);
         session()->put('storeName', $data[0]->name);
         session()->put('stores', $data);
+        // session()->put('permissionCode', $permissionCodes);
 
         $date = date('Y-m-d');
         $fdate = date("Y-m-d", (strtotime($date)) - (7 * 24 * 60 * 60));
@@ -145,28 +169,11 @@ class HomeController extends Controller
                 session()->put('dbname',  $data[$i]->db_name);
                 session()->put('dbuser',  $data[$i]->db_username);
                 session()->put('dbpassword',  $data[$i]->db_password);
-
-
-
-
                 session()->put('sid', $data[$i]->id);
                 session()->put('storeName', $data[$i]->name);
-                // session()->put('user_id', Auth::user()->iuserid);
-                // dd($data[$i]->id);
-            } else {
-                // echo $i. "<br />". $data[$i]->id;
-                // echo  "Sid is not equla";
             }
         }
         session()->put('stores', $data);
-
-        // $data = DB::table('stores')
-        //         ->select('id', 'name', 'db_name', 'db_username', 'db_password', 'db_hostname')
-        //         ->where('id', '=', $sid)
-        //         ->get();
-
-
-
 
         $date = date('Y-m-d');
         $fdate = date("Y-m-d", (strtotime($date)) - (7 * 24 * 60 * 60));
@@ -208,7 +215,6 @@ class HomeController extends Controller
             $output['week'] = 0;
         }
 
-        // dd($data);
         return view('dashboard', compact('output'));
     }
 }
