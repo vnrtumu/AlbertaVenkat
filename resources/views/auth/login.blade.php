@@ -17,9 +17,9 @@
     <script type="text/javascript" src="{{ asset('javascript/jquery/jquery-2.1.1.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('javascript/bootstrap/js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('javascript/summernote/summernote.js') }}"></script>
-    <script src="{{ asset('javascript/jquery/datetimepicker/moment.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('javascript/common.js" type="text/javascript') }}"></script>
+    <!--<script src="{{ asset('javascript/jquery/datetimepicker/moment.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script>-->
+    <script src="{{ asset('javascript/common.js') }}" type='text/javascript'></script>
     <script src="{{ asset('javascript/jquery/jquery-ui.js') }}"></script>
 
 <style>
@@ -72,7 +72,7 @@
 
 </head>
 <body style="background-color: #fff">
-{{-- <div id="divLoading" class="show"></div> --}}
+    <div id="divLoading" class="show"></div>
     <header id="header" class="navbar navbar-static-top">
         <div class="navbar-header">
             @guest
@@ -141,6 +141,15 @@
             $("#menu-toggle").click(function(e) {
             e.preventDefault();
             $("#wrapper").toggleClass("toggled");
+            });
+        </script>
+        <script type="text/javascript">
+            $(window).load(function() {
+              $("div#divLoading").removeClass('show');
+            });
+
+            $(window).on('beforeunload', function(){
+              $("div#divLoading").addClass('show');
             });
         </script>
 </body>

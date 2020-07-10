@@ -405,9 +405,7 @@
                                         <div class="col-sm-8">
                                             <input type="password" name="re_mwpassword" value="" placeholder="" id="input-re-mwpassword" class="form-control webconpass" />
                                             <div class="text-success" id="confirm-pass-msg1"></div>
-
                                             <div class="text-danger"></div>
-
                                         </div>
                                         </div>
                                     </div>
@@ -715,30 +713,7 @@
     if($(".pos").is(':checked')){
         $('#pos1').show();
     }
-//==== old colde
-    // $('.web').click(function () {
-    //     if(this.checked){
-    //         $('#web').show();
-    //     }else{
-    //         $('#web').hide();
-    //     }
-    // });
 
-    // $('.pos').click(function () {
-    //     if(this.checked){
-    //         $('#pos1').show();
-    //     }else{
-    //         $('#pos1').hide();
-    //     }
-    // });
-
-    // $('.mob').click(function () {
-    //     if(this.checked){
-    //         $('#mob').show();
-    //     }else{
-    //         $('#mob').hide();
-    //     }
-    // });
 
     jQuery('#input-vusertype').change(function () {
         var selected_option = $('#input-vusertype').val();

@@ -68,20 +68,10 @@ class AllUserController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
-        $devices = $input['device'];
-        $data = [];
+        // dd($input);
+        // $devices = $input['device'];
+        // $data = [];
 
-        for ($i = 0; $i < count($devices); $i++) {
-            if ($devices[$i] ==  'pos') {
-                $data['pos'] = 'Y';
-            }
-            if ($devices[$i] ==  'web') {
-                $data['web'] = 'Y';
-            }
-            if ($devices[$i] ==  'mob') {
-                $data['mob'] = 'Y';
-            }
-        }
         if (isset($input['vuserid'])) {
             $duplicateUserid = MstUser::where('vuserid', '=', $input['vuserid'])->get();
         }
@@ -93,19 +83,21 @@ class AllUserController extends Controller
         if (isset($duplicateUserid) && count($duplicateUserid) > 0) {
             return redirect('users/create')
                 ->withErrors("Pos User id is already exists.")
-                ->withInput();
+                ->withInput($input);
         } elseif (isset($duplicateEmail) && count($duplicateEmail) > 0 && count($duplicateMstuser) > 0) {
             return redirect('users/create')
                 ->withErrors("User Email is already exists.")
-                ->withInput();
+                ->withInput($input);
+
+            return redirect()->route('users/create', );
         } else {
             //checkwether pos user or (Mobile & Web) user
-            if (isset($data['pos']) == 'Y' && isset($data['web']) == '' && isset($data['mob']) == '') {
+            if (isset($input['pos']) == 'Y' && isset($input['web']) == '' && isset($input['mob']) == '') {
                 $encdoe_password = $this->encodePassword($input['vpassword']);
                 $mst_user = MstUser::create([
-                    'mob_user'  => isset($data['mob']) ? 'Y' : 'N',
-                    'web_user'  => isset($data['web']) ? 'Y' : 'N',
-                    'pos_user'  => isset($data['pos']) ? 'Y' : 'N',
+                    'mob_user'  => isset($input['mob']) ? 'Y' : 'N',
+                    'web_user'  => isset($input['web']) ? 'Y' : 'N',
+                    'pos_user'  => isset($input['pos']) ? 'Y' : 'N',
                     'vfname'    => $input['vfname'],
                     'vlname'    => $input['vlname'],
                     'vaddress1' => $input['vaddress1'],
@@ -141,9 +133,9 @@ class AllUserController extends Controller
                     $encdoe_mwpassword = password_hash($input['mwpassword'], PASSWORD_BCRYPT);
                     $encdoe_password = $this->encodePassword($input['vpassword']);
                     $mst_user = MstUser::create([
-                        'mob_user'  => isset($data['mob']) ? 'Y' : 'N',
-                        'web_user'  => isset($data['web']) ? 'Y' : 'N',
-                        'pos_user'  => isset($data['pos']) ? 'Y' : 'N',
+                        'mob_user'  => isset($input['mob']) ? 'Y' : 'N',
+                        'web_user'  => isset($input['web']) ? 'Y' : 'N',
+                        'pos_user'  => isset($input['pos']) ? 'Y' : 'N',
                         'vfname'    => $input['vfname'],
                         'vlname'    => $input['vlname'],
                         'vaddress1' => $input['vaddress1'],
@@ -164,8 +156,8 @@ class AllUserController extends Controller
                         'vemail' => $input['vemail'],
                     ]);
                     User::where([['vemail', '=', $input['vemail']], ['estatus', '=',  'Inactive']])->update([
-                        'mob_user'  => isset($data['mob']) ? 'Y' : 'N',
-                        'web_user'  => isset($data['web']) ? 'Y' : 'N',
+                        'mob_user'  => isset($input['mob']) ? 'Y' : 'N',
+                        'web_user'  => isset($input['web']) ? 'Y' : 'N',
                         'fname'     => $input['vfname'],
                         'lname'     => $input['vlname'],
                         'user_role' => $input['vusertype'],
@@ -181,9 +173,9 @@ class AllUserController extends Controller
                     $encdoe_mwpassword = password_hash($input['mwpassword'], PASSWORD_BCRYPT);
                     $encdoe_password = $this->encodePassword($input['vpassword']);
                     $mst_user = MstUser::create([
-                        'mob_user'  => isset($data['mob']) ? 'Y' : 'N',
-                        'web_user'  => isset($data['web']) ? 'Y' : 'N',
-                        'pos_user'  => isset($data['pos']) ? 'Y' : 'N',
+                        'mob_user'  => isset($input['mob']) ? 'Y' : 'N',
+                        'web_user'  => isset($input['web']) ? 'Y' : 'N',
+                        'pos_user'  => isset($input['pos']) ? 'Y' : 'N',
                         'vfname'    => $input['vfname'],
                         'vlname'    => $input['vlname'],
                         'vaddress1' => $input['vaddress1'],
@@ -204,8 +196,8 @@ class AllUserController extends Controller
                         'vemail' => $input['vemail'],
                     ]);
                     User::create([
-                        'mob_user'  => isset($data['mob']) ? 'Y' : 'N',
-                        'web_user'  => isset($data['web']) ? 'Y' : 'N',
+                        'mob_user'  => isset($input['mob']) ? 'Y' : 'N',
+                        'web_user'  => isset($input['web']) ? 'Y' : 'N',
                         'fname'     => $input['vfname'],
                         'lname'     => $input['vlname'],
                         'user_role' => $input['vusertype'],
@@ -268,19 +260,7 @@ class AllUserController extends Controller
     public function update(Request $request, MstUser $mstUser, $iuserid)
     {
         $input = $request->all();
-        $devices = $input['device'];
-        $data = [];
-        for ($i = 0; $i < count($devices); $i++) {
-            if ($devices[$i] ==  'pos') {
-                $data['pos'] = 'Y';
-            }
-            if ($devices[$i] ==  'web') {
-                $data['web'] = 'Y';
-            }
-            if ($devices[$i] ==  'mob') {
-                $data['mob'] = 'Y';
-            }
-        }
+
         $que = MstUserpermission::where('userid', '=', $iuserid)->get()->toArray();
         for ($i = 0; $i < count($que); $i++) {
             $list_of_permissions[] = $que[$i]['permission_id'];
@@ -363,8 +343,6 @@ class AllUserController extends Controller
             $vuserid = $mst_user->vuserid;
         }
 
-
-
         if (isset($duplicateUserid) && count($duplicateUserid) > 0) {
             return redirect('users/edit', $iuserid)
                 ->withErrors("Pos User id is already exists.")
@@ -375,9 +353,9 @@ class AllUserController extends Controller
                 ->withInput();
         } else {
             MstUser::where('iuserid', '=', $iuserid)->update([
-                'mob_user'  => isset($data['mob']) ? 'Y' : 'N',
-                'web_user'  => isset($data['web']) ? 'Y' : 'N',
-                'pos_user'  => isset($data['pos']) ? 'Y' : 'N',
+                'mob_user'  => isset($input['mob']) ? 'Y' : 'N',
+                'web_user'  => isset($input['web']) ? 'Y' : 'N',
+                'pos_user'  => isset($input['pos']) ? 'Y' : 'N',
                 'vfname'    => $input['vfname'],
                 'vlname'    => $input['vlname'],
                 'vaddress1' => $input['vaddress1'],
@@ -399,8 +377,8 @@ class AllUserController extends Controller
             ]);
 
             User::where('vemail', '=', $vemail)->update([
-                'mob_user'  => isset($data['mob']) ? 'Y' : 'N',
-                'web_user'  => isset($data['web']) ? 'Y' : 'N',
+                'mob_user'  => isset($input['mob']) ? 'Y' : 'N',
+                'web_user'  => isset($input['web']) ? 'Y' : 'N',
                 'fname'     => $input['vfname'],
                 'lname'     => $input['vlname'],
                 'user_role' => $input['vusertype'],

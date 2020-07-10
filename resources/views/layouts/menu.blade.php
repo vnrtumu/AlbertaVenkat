@@ -25,11 +25,11 @@
         @endif
 
         @if (in_array('PER1002', session()->get('userPermsData')))
-            <li><a href=""><i class="fa fa-building fa-fw"></i> <span>Vendor</span></a></li>
+            <li><a href="{{ route('vendors') }}"><i class="fa fa-building fa-fw"></i> <span>Vendor</span></a></li>
         @endif
 
         @if (in_array('PER1003', session()->get('userPermsData')))
-            <li><a href=""><i class="fa fa-child fa-fw"></i> <span>Customer</span></a></li>
+            <li><a href="{{ route('customers') }}"><i class="fa fa-child fa-fw"></i> <span>Customer</span></a></li>
         @endif
 
         @if (in_array('PER1006', session()->get('userPermsData')))
@@ -55,7 +55,7 @@
         @if (in_array('PER1008', session()->get('userPermsData')))
             <li><a class="parent active"><i class="fa fa-tags fa-fw"></i> <span>Administration</span></a>
                 <ul>
-                <li><a href="">Departments</a></li>
+                <li><a href="{{ route('departments') }}">Departments</a></li>
                 <li><a href="">Category</a></li>
                 </ul>
             </li>

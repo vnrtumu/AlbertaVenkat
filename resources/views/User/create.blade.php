@@ -126,8 +126,7 @@
 @endsection
 
 @section('main-content')
-{{ old('device') }}
-
+{{-- {{ dd($input ?? '') }} --}}
 <div id="content">
     <div class="page-header">
       <div class="container-fluid">
@@ -137,8 +136,6 @@
       </div>
     </div>
     <div class="container-fluid">
-
-
         @if ($errors->any())
         <div class="alert alert-danger">
           <ul>
@@ -146,10 +143,11 @@
               <li>{{$error}}</li>
             @endforeach
           </ul>
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>
         @endif
         {{-- <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i>
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
+
         </div> --}}
         <div class="panel panel-default">
             <div class="panel-heading head_title">
@@ -165,7 +163,7 @@
                                 <div class="row" id="device_control">
                                     <div class="form-group">
 
-                                        <input type="checkbox" name="device[]" value="web" id="fancy-checkbox-warning" autocomplete="off" class="web device"   />
+                                        <input type="checkbox" name="web" value="web" id="fancy-checkbox-warning" autocomplete="off" class="web device" {{ old('web') ? 'checked' : '' }}  />
                                         <div class="[ btn-group ]">
                                             <label for="fancy-checkbox-warning" class="[ btn btn-warning ]">
                                                 <span class="[ glyphicon glyphicon-ok ]"></span>
@@ -177,7 +175,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group required">
-                                        <input type="checkbox" name="device[]" value="mob" id="fancy-checkbox-primary" autocomplete="off" class="mob device" />
+                                        <input type="checkbox" name="mob" value="mob" id="fancy-checkbox-primary" autocomplete="off" class="mob device"  {{ old('mob') ? 'checked' : '' }}  />
                                         <div class="[ btn-group ]">
                                             <label for="fancy-checkbox-primary" class="[ btn btn-primary ]">
                                                 <span class="[ glyphicon glyphicon-ok ]"></span>
@@ -189,7 +187,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group required">
-                                        <input type="checkbox" name="device[]" value="pos" id="fancy-checkbox-success" autocomplete="off" class="pos device"  />
+                                        <input type="checkbox" name="pos" value="pos" id="fancy-checkbox-success" autocomplete="off" class="pos device"  {{ old('pos') ? 'checked' : '' }}  />
                                         <div class="[ btn-group ] required">
                                             <label for="fancy-checkbox-success" class="[ btn btn-success ]">
                                                 <span class="[ glyphicon glyphicon-ok ]"></span>
@@ -309,8 +307,17 @@
                                         <div class="col-sm-8">
                                             <select name="vusertype" id="input-vusertype" class="form-control" required>
                                             <option value="">Select User Type</option>
-                                            @foreach ($mstPermissiongroup as $group)
+                                            {{-- @foreach ($mstPermissiongroup as $group)
                                                 <option value="{{$group->vgroupname}}">{{$group->vgroupname}}</option>
+                                            @endforeach --}}
+
+                                            @foreach ($mstPermissiongroup as $group)
+                                                <option value="{{$group->vgroupname}}"
+                                                    @if ($group->vgroupname == old('vusertype'))
+                                                        selected
+                                                    @endif >{{ $group->vgroupname }}
+                                                </option>
+                                                {{-- <option value="{{$group->vgroupname}}">{{$group->vgroupname}}</option> --}}
                                             @endforeach
                                             </select>
                                             {{-- <div class="text-danger" id="usertypeError"></div> --}}
@@ -689,30 +696,7 @@
     if($(".pos").is(':checked')){
         $('#pos1').show();
     }
-//==== old colde
-    // $('.web').click(function () {
-    //     if(this.checked){
-    //         $('#web').show();
-    //     }else{
-    //         $('#web').hide();
-    //     }
-    // });
 
-    // $('.pos').click(function () {
-    //     if(this.checked){
-    //         $('#pos1').show();
-    //     }else{
-    //         $('#pos1').hide();
-    //     }
-    // });
-
-    // $('.mob').click(function () {
-    //     if(this.checked){
-    //         $('#mob').show();
-    //     }else{
-    //         $('#mob').hide();
-    //     }
-    // });
 
     jQuery('#input-vusertype').change(function () {
         var selected_option = $('#input-vusertype').val();

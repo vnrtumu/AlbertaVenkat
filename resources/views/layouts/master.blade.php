@@ -1,12 +1,10 @@
-
-{{-- {{ dd($permissionCodes) }} --}}
-
 <!DOCTYPE html>
 <html dir="" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     <title>@yield('title')</title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
     <script type="text/javascript" src="{{ asset('javascript/jquery/jquery-2.1.1.min.js') }}"></script>
@@ -17,10 +15,6 @@
     <link href="{{ asset('javascript/summernote/summernote.css') }}" rel="stylesheet" />
 
     <script type="text/javascript" src="{{ asset('javascript/summernote/summernote.js') }}"></script>
-    <script src="{{ asset('javascript/jquery/datetimepicker/moment.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script>
-
-    <link href="{{ asset('javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css') }}" type="text/css" rel="stylesheet" media="screen" />
     <link type="text/css" href="{{ asset('stylesheet/stylesheet.css') }}" rel="stylesheet" media="screen" />
 
     <script src="{{ asset('javascript/common.js') }}"  type="text/javascript"></script>
@@ -29,6 +23,8 @@
     <link rel="stylesheet" href="{{ asset('stylesheet/jquery-ui.css') }}">
 
     <script src="{{ asset('javascript/jquery/jquery-ui.js') }}"></script>
+
+
 
 
 
@@ -148,22 +144,14 @@
             @endguest
         </header>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-2">
-                    @extends('layouts.menu')
-                </div>
 
-                <div class="col-md-10">
-                    @section('main-content')
-
-                    @show
-                </div>
-            </div>
-        </div>
+        @include('layouts.menu')
 
 
 
+        @section('main-content')
+
+        @show
 
 
         <footer id="footer">

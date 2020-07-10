@@ -1,20 +1,33 @@
 @extends('layouts.master')
 
 @section('title')
-    Alberta Payments
-@stop
+  Dashboard
+@endsection
 
 @section('main-content')
+{{-- {{ dd($output) }} --}}
 <div id="content">
     <div class="page-header">
       <div class="container-fluid">
         <!-- <h1></h1> -->
         <ul class="breadcrumb">
+
           <li><a href="">Dashboard</a></li>
+
         </ul>
+
       </div>
+      <!-- <br>
+      <div class="container-fluid" style="margin-bottom:-5px;">
+        <p><a style="font-size:14px;" class="btn btn-success" href="">Quick Links</a></p>
+      </div> -->
     </div>
     <div class="container-fluid">
+      {{-- <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i>
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+      </div> --}}
+
+
       <div class="panel panel-default" style="border-left:none;border-right:none;border-bottom:none;">
         <div class="panel-body dashboard_charts_title">
           <div class="row dashboard_amt">
@@ -246,10 +259,10 @@
     });
   </script> --}}
 
-  <link href="view/stylesheet/morris.css" rel="stylesheet" type="text/css"/>
+  <link href="/stylesheet/morris.css" rel="stylesheet" type="text/css"/>
   <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-  <script src="view/javascript/morriss/morris.min.js"></script>
-  <script src="view/javascript/dashboardApi.js"></script>
+  <script src="/javascript/morriss/morris.min.js"></script>
+  <script src="/javascript/dashboardApi.js"></script>
 
   <script type="text/javascript">
     $(window).load(function() {

@@ -11,9 +11,7 @@
       <div class="container-fluid">
         {{-- <h1>Users List</h1> --}}
         <ul class="breadcrumb">
-
           <li><a href="">users</a></li>
-
         </ul>
       </div>
     </div>
