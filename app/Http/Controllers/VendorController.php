@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Vendor;
+use App\Model\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -83,7 +83,7 @@ class VendorController extends Controller
         return view('vendors.edit', compact('vendor'));
     }
 
-    
+
     public function update(Request $request, Vendor $vendor, $isupplierid)
     {
         $input = $request->all();

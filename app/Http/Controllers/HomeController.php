@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\MstUserpermission;
-use App\MstPermission;
-use App\MstUser;
+use App\Model\MstUserpermission;
+use App\Model\MstPermission;
+use App\Model\MstUser;
 
 class HomeController extends Controller
 {

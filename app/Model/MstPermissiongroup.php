@@ -1,21 +1,21 @@
 <?php
 
-namespace App;
+namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MstUserpermissiongroup extends Model
+class MstPermissiongroup extends Model
 {
     protected $connection = 'mysql_dynamic';
-    protected $table = 'mst_userpermissiongroup';
+    protected $table = 'mst_permissiongroup';
     public $timestamps = false;
     protected $fillable = [
-                            'iuserid',
                             'ipermissiongroupid',
+                            'ipgroupid',
+                            'vgroupname',
+                            'estatus',
+                            'etransferstatus',
                             'LastUpdate',
                             'SID',
-                            'Id',
                         ];
-
-
 }

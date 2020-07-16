@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\MstCategory;
+use App\Model\MstCategory;
 use Illuminate\Http\Request;
-use App\MstDepartment;
+use App\Model\MstDepartment;
 use Illuminate\Support\Facades\DB;
 use LengthAwarePaginator;
 

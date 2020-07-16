@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\MstCustomer;
+use App\Model\MstCustomer;
 use Laravel\Ui\Presets\React;
 
 class CustomerController extends Controller

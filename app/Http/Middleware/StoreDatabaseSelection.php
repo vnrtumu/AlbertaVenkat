@@ -19,11 +19,8 @@ class StoreDatabaseSelection
      */
     public function handle($request, Closure $next)
     {
-        // dd(Session::all());
         if(Session::has('dbhost') && Session::has('dbname') && Session::has('dbuser') && Session::has('dbpassword')){
-
             //if the store credentials are there in session
-
             Config::set('database.connections.mysql_dynamic', array(
 
                 'driver' => 'mysql',
@@ -37,15 +34,10 @@ class StoreDatabaseSelection
                 'prefix' => '',
                 'strict' => true,
                 'engine' => null,
-
             ));
-
-
-
-        } else {
+        } elseif(isset(Auth::user()->id)) {
 
             //if the store credentials are not there in session
-
             if (Auth::user()->user_role == "SuperAdmin") {
                 $data = DB::table('store_mw_users')
                     ->join('user_stores', 'store_mw_users.iuserid', '=', 'user_stores.user_id')
@@ -66,28 +58,34 @@ class StoreDatabaseSelection
                 ->get();
             }
 
-            config(['database.connections.mysql_dynamic' => [
-                'driver'    => 'mysql',
-                'host'      =>  $data[0]->db_hostname,
-                'database'  =>  $data[0]->db_name,
-                'username'  =>  $data[0]->db_username,
-                'password'  =>  $data[0]->db_password,
-                'charset'   => 'utf8',
-                'collation' => 'utf8_unicode_ci',
-                'prefix'    => '',
-                'strict'    => false,
-            ]]);
+            if(isset($data[0]) && count((array)$data[0]) > 0){
+                config(['database.connections.mysql_dynamic' => [
+                    'driver'    => 'mysql',
+                    'host'      =>  $data[0]->db_hostname,
+                    'database'  =>  $data[0]->db_name,
+                    'username'  =>  $data[0]->db_username,
+                    'password'  =>  $data[0]->db_password,
+                    'charset'   => 'utf8',
+                    'collation' => 'utf8_unicode_ci',
+                    'prefix'    => '',
+                    'strict'    => false,
+                ]]);
 
 
+                session()->put('dbhost',  $data[0]->db_hostname);
+                session()->put('dbname',  $data[0]->db_name);
+                session()->put('dbuser',  $data[0]->db_username);
+                session()->put('dbpassword',  $data[0]->db_password);
 
-            session()->put('dbhost',  $data[0]->db_hostname);
-            session()->put('dbname',  $data[0]->db_name);
-            session()->put('dbuser',  $data[0]->db_username);
-            session()->put('dbpassword',  $data[0]->db_password);
+                session()->put('sid', $data[0]->id);
+                session()->put('storeName', $data[0]->name);
+                session()->put('stores', $data);
+            } else {
+                return route('/');
+            }
 
-            session()->put('sid', $data[0]->id);
-            session()->put('storeName', $data[0]->name);
-            session()->put('stores', $data);
+        } else {
+            return route('/');
         }
 
         return $next($request);

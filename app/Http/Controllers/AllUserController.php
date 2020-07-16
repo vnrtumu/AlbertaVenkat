@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\MstUser;
+use App\Model\MstUser;
 use App\User;
-use App\MstPermission;
+use App\Model\MstPermission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Validator;
-use App\MstUserpermission;
+use App\Model\MstUserpermission;
 use Illuminate\Support\Facades\Auth;
-use App\MstPermissiongroup;
-use App\MstUserpermissiongroup;
+use App\Model\MstPermissiongroup;
+use App\Model\MstUserpermissiongroup;
 use Illuminate\Auth\Access\Gate;
 
 
@@ -89,7 +89,6 @@ class AllUserController extends Controller
                 ->withErrors("User Email is already exists.")
                 ->withInput($input);
 
-            return redirect()->route('users/create', );
         } else {
             //checkwether pos user or (Mobile & Web) user
             if (isset($input['pos']) == 'Y' && isset($input['web']) == '' && isset($input['mob']) == '') {
