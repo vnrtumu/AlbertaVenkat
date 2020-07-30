@@ -161,7 +161,7 @@
                             <div class="container">
                                 <div class="row" id="device_control">
                                     <div class="form-group">
-                                        <input type="checkbox" name="device[]" value="web" id="fancy-checkbox-warning" autocomplete="off" class="web device"
+                                        <input type="checkbox" name="web" value="web" id="fancy-checkbox-warning" autocomplete="off" class="web device"
                                             @if ($users->web_user == 'Y')
                                               checked
                                               @endif
@@ -177,7 +177,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group required">
-                                        <input type="checkbox" name="device[]" value="mob" id="fancy-checkbox-primary" autocomplete="off" class="mob device"
+                                        <input type="checkbox" name="mob" value="mob" id="fancy-checkbox-primary" autocomplete="off" class="mob device"
                                             @if ($users->mob_user == 'Y')
                                             checked
                                             @endif
@@ -193,7 +193,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group required">
-                                        <input type="checkbox" name="device[]" value="pos" id="fancy-checkbox-success" autocomplete="off" class="pos device"
+                                        <input type="checkbox" name="pos" value="pos" id="fancy-checkbox-success" autocomplete="off" class="pos device"
                                          @if ($users->pos_user == 'Y')
                                             checked
                                             @endif
@@ -373,7 +373,6 @@
                                             <option value="Active"  {{ $users->estatus == 'Active' ? 'selected' : '' }} >Active</option>
                                             <option value="Inactive" {{ $users->estatus== 'Inactive' ? 'selected' : '' }}  >InActive</option>
                                         </select>
-                                        {{-- <div class="text-danger"></div> --}}
                                     </div>
                                     </div>
                                 </div>
@@ -386,7 +385,7 @@
                                         <label class="col-sm-4 control-label" for="input-email">Email</label>
                                         <div class="col-sm-8">
                                             <input type="email" name="vemail" maxlength="125" value="{{ $users->vemail }}" placeholder="" id="input-email" class="form-control webemail" />
-                                            <div class="text-danger"></div>
+
                                         </div>
                                         </div>
                                     </div>
@@ -395,7 +394,7 @@
                                         <label class="col-sm-4 control-label" for="input-mwpassword">Password</label>
                                         <div class="col-sm-8">
                                             <input type="password" name="mwpassword" value="" placeholder="" id="input-mwpassword" class="form-control webpass" />
-                                            <div class="text-danger"></div>
+
                                         </div>
                                         </div>
                                     </div>
@@ -405,7 +404,7 @@
                                         <div class="col-sm-8">
                                             <input type="password" name="re_mwpassword" value="" placeholder="" id="input-re-mwpassword" class="form-control webconpass" />
                                             <div class="text-success" id="confirm-pass-msg1"></div>
-                                            <div class="text-danger"></div>
+
                                         </div>
                                         </div>
                                     </div>
@@ -421,7 +420,7 @@
                                                 <input type="text" name="vuserid" maxlength="3" value="{{ $users->vuserid }}" placeholder="" id="input-vuserid" class="form-control posemail" />
                                                 <div class="text-success" id="user-id-msg"></div>
 
-                                                <div class="text-danger"></div>
+
 
                                             </div>
                                             </div>
@@ -432,7 +431,7 @@
                                             <div class="col-sm-7">
                                                 <input type="password" name="vpassword" maxlength="4" value="" placeholder="" id="input-vpassword" class="form-control pospass" />
 
-                                                <div class="text-danger"></div>
+
 
                                             </div>
                                             </div>
@@ -443,7 +442,7 @@
                                             <div class="col-sm-8">
                                                 <input type="password" name="re_vpassword" maxlength="4" value="" placeholder="" id="input-re-vpassword" class="form-control posconpass" />
                                                 <div class="text-success" id="confirm-pass-msg2"></div>
-                                                <div class="text-danger"></div>
+
                                             </div>
                                             </div>
                                     </div>

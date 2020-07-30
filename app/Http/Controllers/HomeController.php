@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Model\MstUserpermission;
-use App\Model\MstPermission;
-use App\Model\MstUser;
+use App\Model\Userpermission;
+use App\Model\Permission;
+use App\Model\UserDynamic;
 
 class HomeController extends Controller
 {
@@ -69,9 +69,12 @@ class HomeController extends Controller
             $user_id = Auth::user()->iuserid;
             $userPermsData = DB::connection('mysql_dynamic')->select("SELECT  mp.vpermissioncode FROM mst_permission mp join mst_userpermissions mup on mp.vpermissioncode = mup.permission_id where mp.vpermissiontype = 'WEB' and mup.status = 'Active' and mup.userid = ".$user_id);
         }
+        $permsData = array();
         for($i = 0; $i < count($userPermsData); $i++ ){
             $permsData[] = $userPermsData[$i]->vpermissioncode;
+            // dd($userPermsData[$i]->vpermissioncode);
         }
+        // dd($permsData);
 
         session()->put('userPermsData', $permsData);
 
@@ -84,6 +87,28 @@ class HomeController extends Controller
         session()->put('storeName', $data[0]->name);
         session()->put('stores', $data);
         // session()->put('permissionCode', $permissionCodes);
+
+        $check_table_query = "SELECT * FROM information_schema.tables WHERE table_schema = '{$data[0]->db_name}' AND table_name = 'mst_version' LIMIT 1";
+
+        $check_table = DB::connection('mysql_dynamic')->select($check_table_query);
+
+
+        if(count($check_table) === 0){
+
+            session()->put('new_database', false);
+
+        } else {
+
+            //========check store version =========
+            $result = DB::connection('mysql_dynamic')->table('mst_version')->orderBy('LastUpdate', 'desc')->first();
+
+            if($result->ver_no >= 3){
+                session()->put('new_database', true);
+            }else{
+                session()->put('new_database', false);
+            }
+
+        }
 
         $date = date('Y-m-d');
         $fdate = date("Y-m-d", (strtotime($date)) - (7 * 24 * 60 * 60));
@@ -171,6 +196,15 @@ class HomeController extends Controller
                 session()->put('dbpassword',  $data[$i]->db_password);
                 session()->put('sid', $data[$i]->id);
                 session()->put('storeName', $data[$i]->name);
+
+                //========check store version =========
+                $result = DB::connection('mysql_dynamic')->table('mst_version')->orderBy('LastUpdate', 'desc')->first();
+
+                if($result->ver_no >= 3){
+                    session()->put('new_database', true);
+                }else{
+                    session()->put('new_database', false);
+                }
             }
         }
         session()->put('stores', $data);

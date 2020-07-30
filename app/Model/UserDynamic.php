@@ -3,7 +3,7 @@
 namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 
-class MstUser extends Model
+class UserDynamic extends Model
 {
     protected $connection = 'mysql_dynamic';
     protected $table = 'mst_user';

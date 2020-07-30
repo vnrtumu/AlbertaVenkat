@@ -48,7 +48,7 @@
                 <div class="form-group required">
                   <label class="col-sm-4 control-label" for="input-vendor-name">Vendor Name</label>
                   <div class="col-sm-8">
-                    <input type="text" name="vcompanyname" maxlength="50" value="{{ old('vcompanyname') }}" placeholder="vendor Name" id="input-vendor-name" class="form-control" />
+                    <input type="text" name="vcompanyname" maxlength="50" value="{{ old('vcompanyname') }}" placeholder="vendor Name" id="input-vendor-name" class="form-control" required />
                   </div>
                 </div>
               </div>
@@ -57,7 +57,7 @@
                 <div class="form-group">
                   <label class="col-sm-4 control-label" for="input-vendor-type">Vendor Type</label>
                   <div class="col-sm-8">
-                    <select name="vvendortype" id="input-vendor-type" class="form-control">
+                    <select name="vvendortype" id="input-vendor-type" class="form-control" >
 
                       <option value="vendor" selected="selected">Vendor</option>
                       <option value="other" >Other</option>
@@ -130,7 +130,7 @@
                 <div class="form-group">
                   <label class="col-sm-4 control-label" for="input-phone">Phone</label>
                   <div class="col-sm-8">
-                    <input type="text" name="vphone" maxlength="20" value="{{ old('vphone') }}" placeholder="" id="input-phone" class="form-control" />
+                    <input type="text" name="vphone" maxlength="20"  onkeyup="this.value=this.value.replace(/[^\d]/,'')" value="{{ old('vphone') }}" placeholder="" id="input-phone" class="form-control" />
                   </div>
                 </div>
               </div>

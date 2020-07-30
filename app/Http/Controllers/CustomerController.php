@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Model\MstCustomer;
+use App\Model\Customer;
 use Laravel\Ui\Presets\React;
 
 class CustomerController extends Controller
 {
     public function index()
     {
-        $customers = MstCustomer::orderBy('icustomerid', 'DESC')->paginate(20);
+        $customers = Customer::orderBy('icustomerid', 'DESC')->paginate(20);
         return view('customers.index', compact('customers'));
     }
 
@@ -23,14 +23,14 @@ class CustomerController extends Controller
     {
         $input = $request->all();
 
-        $duplicateCust = MstCustomer::where('vphone', '=', $input['vphone'])->get();
+        $duplicateCust = Customer::where('vphone', '=', $input['vphone'])->get();
 
         if(count($duplicateCust) > 0){
             return redirect('customers/create')
                         ->withErrors("Vendor id is already exists.")
                         ->withInput();
         }else {
-            MstCustomer::create([
+            Customer::create([
                 'vcustomername' => $input['vcustomername'],
                 'vaccountnumber' => $input['vaccountnumber'],
                 'vfname' => $input['vfname'],
@@ -57,16 +57,16 @@ class CustomerController extends Controller
 
     public function edit(Request $request, $icustomerid)
     {
-        $customers = MstCustomer::where('icustomerid', '=', $icustomerid)->get();
+        $customers = Customer::where('icustomerid', '=', $icustomerid)->get();
         $customer = $customers[0];
         return view('customers.edit', compact('customer'));
     }
 
-    public function update(Request $request, MstCustomer $mstCustomer, $icustomerid)
+    public function update(Request $request, Customer $customer, $icustomerid)
     {
         $input = $request->all();
 
-        MstCustomer::where('icustomerid', '=', $icustomerid)->update([
+        Customer::where('icustomerid', '=', $icustomerid)->update([
             'vcustomername' => $input['vcustomername'],
             'vaccountnumber' => $input['vaccountnumber'],
             'vfname' => $input['vfname'],
@@ -94,7 +94,7 @@ class CustomerController extends Controller
     {
         $delId = $request->all();
         for($i = 0; $i < count($delId['selected']); $i++ ){
-            MstCustomer::where('icustomerid', '=', $delId['selected'][$i] )->delete();
+            Customer::where('icustomerid', '=', $delId['selected'][$i] )->delete();
         }
         return redirect('customers')->with('message', 'customers Deleted Successfully');
     }

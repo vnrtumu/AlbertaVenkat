@@ -46,7 +46,7 @@
         @if (in_array('PER1007', session()->get('userPermsData')))
             <li><a class="parent active"><i class="fa fa-sitemap fa-fw"></i> <span>Inventroy</span></a>
                 <ul>
-                    <li><a href="">Inventroy 1</a></li>
+                    <li><a href="{{ route('physicalInventroy') }}">New Physical Inventroy </a></li>
                     <li><a href="">Inventroy 2</a></li>
                 </ul>
             </li>

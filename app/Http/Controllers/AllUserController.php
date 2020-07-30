@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\MstUser;
+use App\Model\UserDynamic;
 use App\User;
-use App\Model\MstPermission;
+use App\Model\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Validator;
-use App\Model\MstUserpermission;
+use App\Model\Userpermission;
 use Illuminate\Support\Facades\Auth;
-use App\Model\MstPermissiongroup;
-use App\Model\MstUserpermissiongroup;
+use App\Model\Permissiongroup;
+use App\Model\Userpermissiongroup;
 use Illuminate\Auth\Access\Gate;
 
 
@@ -33,8 +33,7 @@ class AllUserController extends Controller
      */
     public function index()
     {
-        $users = MstUser::orderBy('iuserid', 'DESC')->paginate(20);
-
+        $users = UserDynamic::orderBy('iuserid', 'DESC')->paginate(20);
         return view('User.index', compact('users'));
     }
 
@@ -45,8 +44,8 @@ class AllUserController extends Controller
      */
     public function create()
     {
-        $permissions = MstPermission::all();
-        $mstPermissiongroup = MstPermissiongroup::all();
+        $permissions = Permission::all();
+        $mstPermissiongroup = Permissiongroup::all();
         return view('User.create', compact('permissions', 'mstPermissiongroup'));
     }
     /**
@@ -73,11 +72,11 @@ class AllUserController extends Controller
         // $data = [];
 
         if (isset($input['vuserid'])) {
-            $duplicateUserid = MstUser::where('vuserid', '=', $input['vuserid'])->get();
+            $duplicateUserid = UserDynamic::where('vuserid', '=', $input['vuserid'])->get();
         }
         if (isset($input['vemail'])) {
             $duplicateEmail = User::where([['vemail', '=', $input['vemail']], ['estatus', '=',  'Active']])->get();
-            $duplicateMstuser = MstUser::where('vemail', '=', $input['vemail'])->get();
+            $duplicateMstuser = UserDynamic::where('vemail', '=', $input['vemail'])->get();
         }
 
         if (isset($duplicateUserid) && count($duplicateUserid) > 0) {
@@ -93,7 +92,7 @@ class AllUserController extends Controller
             //checkwether pos user or (Mobile & Web) user
             if (isset($input['pos']) == 'Y' && isset($input['web']) == '' && isset($input['mob']) == '') {
                 $encdoe_password = $this->encodePassword($input['vpassword']);
-                $mst_user = MstUser::create([
+                $mst_user = UserDynamic::create([
                     'mob_user'  => isset($input['mob']) ? 'Y' : 'N',
                     'web_user'  => isset($input['web']) ? 'Y' : 'N',
                     'pos_user'  => isset($input['pos']) ? 'Y' : 'N',
@@ -131,7 +130,7 @@ class AllUserController extends Controller
                 if (count($Email) > 0) {
                     $encdoe_mwpassword = password_hash($input['mwpassword'], PASSWORD_BCRYPT);
                     $encdoe_password = $this->encodePassword($input['vpassword']);
-                    $mst_user = MstUser::create([
+                    $mst_user = UserDynamic::create([
                         'mob_user'  => isset($input['mob']) ? 'Y' : 'N',
                         'web_user'  => isset($input['web']) ? 'Y' : 'N',
                         'pos_user'  => isset($input['pos']) ? 'Y' : 'N',
@@ -171,7 +170,7 @@ class AllUserController extends Controller
                 } else {
                     $encdoe_mwpassword = password_hash($input['mwpassword'], PASSWORD_BCRYPT);
                     $encdoe_password = $this->encodePassword($input['vpassword']);
-                    $mst_user = MstUser::create([
+                    $mst_user = UserDynamic::create([
                         'mob_user'  => isset($input['mob']) ? 'Y' : 'N',
                         'web_user'  => isset($input['web']) ? 'Y' : 'N',
                         'pos_user'  => isset($input['pos']) ? 'Y' : 'N',
@@ -211,7 +210,7 @@ class AllUserController extends Controller
         }
 
         foreach ($input['permission'] as $permission) {
-            MstUserpermission::create([
+            Userpermission::create([
                 'status'        => 'Active',
                 'created_id'    => Auth::user()->iuserid,
                 'permission_id' => $permission,
@@ -220,14 +219,14 @@ class AllUserController extends Controller
                 'SID'           => session()->get('sid')
             ]);
         }
-        $group = MstPermissiongroup::where('vgroupname', '=', $input['vusertype'])->get();
+        $group = Permissiongroup::where('vgroupname', '=', $input['vusertype'])->get();
         if (count($group) > 0) {
             $ipermissiongroupid = $group[0]->ipermissiongroupid;
-            $que = MstUserpermissiongroup::where('iuserid', '=', Auth::user()->iuserid)->get();
+            $que = Userpermissiongroup::where('iuserid', '=', Auth::user()->iuserid)->get();
             if (count($que) > 0) {
-                MstUserpermissiongroup::where('iuserid', '=', Auth::user()->iuserid)->update(['ipermissiongroupid' => $ipermissiongroupid]);
+                Userpermissiongroup::where('iuserid', '=', Auth::user()->iuserid)->update(['ipermissiongroupid' => $ipermissiongroupid]);
             } else {
-                MstUserpermissiongroup::create(['iuserid' => Auth::user()->iuserid, 'ipermissiongroupid' => $ipermissiongroupid, 'SID' => session()->get('sid')]);
+                Userpermissiongroup::create(['iuserid' => Auth::user()->iuserid, 'ipermissiongroupid' => $ipermissiongroupid, 'SID' => session()->get('sid')]);
             }
         }
         return redirect('users')->with('message', 'User Created Successfully');
@@ -235,14 +234,14 @@ class AllUserController extends Controller
 
 
 
-    public function edit(MstUser $mstUser, $iuserid)
+    public function edit(UserDynamic $userDynamic, $iuserid)
     {
-        $permissions = MstPermission::all();
-        $mstPermissiongroup = MstPermissiongroup::all();
-        $user = MstUser::where('iuserid', '=', $iuserid)->get();
+        $permissions = Permission::all();
+        $mstPermissiongroup = Permissiongroup::all();
+        $user = UserDynamic::where('iuserid', '=', $iuserid)->get();
         $users = $user[0];
-        $checkedPermission = MstUserpermission::where('userid', '=', $iuserid)->get()->toArray();
-
+        $checkedPermission = Userpermission::where('userid', '=', $iuserid)->get()->toArray();
+        $dataPerCheck = array();
         for ($i = 0; $i < count($checkedPermission); $i++) {
             $dataPerCheck[] = $checkedPermission[$i]['permission_id'];
         }
@@ -256,21 +255,22 @@ class AllUserController extends Controller
      * @param  \App\AllUser  $allUser
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MstUser $mstUser, $iuserid)
+    public function update(Request $request, UserDynamic $userDynamic, $iuserid)
     {
         $input = $request->all();
 
-        $que = MstUserpermission::where('userid', '=', $iuserid)->get()->toArray();
+        $que = Userpermission::where('userid', '=', $iuserid)->get()->toArray();
         for ($i = 0; $i < count($que); $i++) {
             $list_of_permissions[] = $que[$i]['permission_id'];
         }
+
         foreach ($input['permission'] as $permission) {
             if (in_array($permission, $list_of_permissions)) {
-                $get_id = MstUserpermission::where([['permission_id', '=', $permission], ['userid', '=', $iuserid]])->get();
+                $get_id = Userpermission::where([['permission_id', '=', $permission], ['userid', '=', $iuserid]])->get();
                 $mst_perm_id = $get_id[0]->Id;
-                MstUserpermission::where('Id', '=', $mst_perm_id)->update(['permission_id' => $permission, 'status' => 'Active']);
+                Userpermission::where('Id', '=', $mst_perm_id)->update(['permission_id' => $permission, 'status' => 'Active']);
             } else {
-                MstUserpermission::create([
+                Userpermission::create([
                     'status'        => 'Active',
                     'created_id'    => Auth::user()->iuserid,
                     'permission_id' => $permission,
@@ -285,28 +285,27 @@ class AllUserController extends Controller
         }
         // for removing permissoion
         foreach ($list_of_permissions as $permission) {
-            $get_id = MstUserpermission::where([['permission_id', '=', $permission], ['userid', '=', $iuserid]])->get();
+            $get_id = Userpermission::where([['permission_id', '=', $permission], ['userid', '=', $iuserid]])->get();
+
             $mst_perm_id = $get_id[0]->Id;
-            MstUserpermission::where('Id', '=', $mst_perm_id)->update(['status' => 'Inactive']);
+            Userpermission::where('Id', '=', $mst_perm_id)->update(['status' => 'Inactive']);
         }
-        $group = MstPermissiongroup::where('vgroupname', '=', $input['vusertype'])->get();
+        $group = Permissiongroup::where('vgroupname', '=', $input['vusertype'])->get();
         if (count($group) > 0) {
             $ipermissiongroupid = $group[0]->ipermissiongroupid;
-            $que = MstUserpermissiongroup::where('iuserid', '=', Auth::user()->iuserid)->get();
+            $que = Userpermissiongroup::where('iuserid', '=', Auth::user()->iuserid)->get();
             if (count($que) > 0) {
-                MstUserpermissiongroup::where('iuserid', '=', Auth::user()->iuserid)->update(['ipermissiongroupid' => $ipermissiongroupid]);
+                Userpermissiongroup::where('iuserid', '=', Auth::user()->iuserid)->update(['ipermissiongroupid' => $ipermissiongroupid]);
             } else {
-                MstUserpermissiongroup::create(['iuserid' => Auth::user()->iuserid, 'ipermissiongroupid' => $ipermissiongroupid, 'SID' => session()->get('sid')]);
+                Userpermissiongroup::create(['iuserid' => Auth::user()->iuserid, 'ipermissiongroupid' => $ipermissiongroupid, 'SID' => session()->get('sid')]);
             }
         }
-        $mst_user = MstUser::where('iuserid', '=', $iuserid)->first();
-        // dd($mst_user->vemail);
+        $mst_user = UserDynamic::where('iuserid', '=', $iuserid)->first();
         $store_mw_User = User::where('vemail', '=', $mst_user->vemail)->get();
         $db_mst_user = $mst_user->mwpassword;
         $db_store_mw_user = $store_mw_User[0]->password;
         $dbvemail = $mst_user->vemail;
         $check_pwd_entered = 0;
-
         if (strlen($input['mwpassword'] > 20)) {
             $encdoe_mwpassword = password_hash($input['mwpassword'], PASSWORD_DEFAULT);
             $check_pwd_entered = 1;
@@ -322,25 +321,27 @@ class AllUserController extends Controller
         } else {
             $encdoe_password = $db_mst_user;
         }
-
+        $user_id = $mst_user->iuserid;
         // check if the entered email is different from the one in db
         if (isset($input['vemail'])  && $mst_user->vemail != $input['vemail']) {
             $vemail = $input['vemail'];
             if (isset($input['vemail'])) {
                 $duplicateEmail = User::where([['vemail', '=', $input['vemail']], ['estatus', '=',  'Active']])->get();
-                $duplicateMstuser = MstUser::where('vemail', '=', $input['vemail'])->get();
+                $duplicateMstuser = UserDynamic::where('vemail', '=', $input['vemail'])->get();
             }
         } else {
+
             $vemail = $mst_user->vemail;
         }
         if (isset($input['vuserid']) && $mst_user->vuserid != $input['vuserid']) {
             $vuserid = $input['vuserid'];
             if (isset($input['vuserid'])) {
-                $duplicateUserid = MstUser::where('vuserid', '=', $input['vuserid'])->get();
+                $duplicateUserid = UserDynamic::where('vuserid', '=', $input['vuserid'])->get();
             }
         } else {
             $vuserid = $mst_user->vuserid;
         }
+
 
         if (isset($duplicateUserid) && count($duplicateUserid) > 0) {
             return redirect('users/edit', $iuserid)
@@ -351,42 +352,85 @@ class AllUserController extends Controller
                 ->withErrors("User Email is already exists.")
                 ->withInput();
         } else {
-            MstUser::where('iuserid', '=', $iuserid)->update([
-                'mob_user'  => isset($input['mob']) ? 'Y' : 'N',
-                'web_user'  => isset($input['web']) ? 'Y' : 'N',
-                'pos_user'  => isset($input['pos']) ? 'Y' : 'N',
-                'vfname'    => $input['vfname'],
-                'vlname'    => $input['vlname'],
-                'vaddress1' => $input['vaddress1'],
-                'vaddress2' => $input['vaddress2'],
-                'vcity'     => $input['vcity'],
-                'vstate'    => $input['vstate'],
-                'vzip'      => $input['vzip'],
-                'vcountry'  => $input['vcountry'],
-                'vphone'    => $input['vphone'],
-                'vuserid'   => $vuserid,
-                'vpassword' => $input['vpassword'],
-                'vusertype' => $input['vusertype'],
-                'vpasswordchange' => $input['vpasswordchange'],
-                'vuserbarcode' => $input['vuserbarcode'],
-                'estatus'   =>  $input['estatus'],
-                'SID'       => session()->get('sid'),
-                'mwpassword' => $encdoe_mwpassword,
-                'vemail' => $vemail,
-            ]);
 
-            User::where('vemail', '=', $vemail)->update([
-                'mob_user'  => isset($input['mob']) ? 'Y' : 'N',
-                'web_user'  => isset($input['web']) ? 'Y' : 'N',
-                'fname'     => $input['vfname'],
-                'lname'     => $input['vlname'],
-                'user_role' => $input['vusertype'],
-                'iuserid'   => $iuserid,
-                'estatus'   => 'Active',
-                'SID'       => session()->get('sid'),
-                'password' => $encdoe_mwpassword,
-                'vemail' => $vemail,
-            ]);
+            // if (isset($input['pos']) == 'Y' && isset($input['web']) == '' && isset($input['mob']) == '') {
+                UserDynamic::where('iuserid', '=', $iuserid)->update([
+                    'mob_user'  => isset($input['mob']) ? 'Y' : 'N',
+                    'web_user'  => isset($input['web']) ? 'Y' : 'N',
+                    'pos_user'  => isset($input['pos']) ? 'Y' : 'N',
+                    'vfname'    => $input['vfname'],
+                    'vlname'    => $input['vlname'],
+                    'vaddress1' => $input['vaddress1'],
+                    'vaddress2' => $input['vaddress2'],
+                    'vcity'     => $input['vcity'],
+                    'vstate'    => $input['vstate'],
+                    'vzip'      => $input['vzip'],
+                    'vcountry'  => $input['vcountry'],
+                    'vphone'    => $input['vphone'],
+                    'vuserid'   => $vuserid,
+                    'vpassword' => $input['vpassword'],
+                    'vusertype' => $input['vusertype'],
+                    'vpasswordchange' => $input['vpasswordchange'],
+                    'vuserbarcode' => $input['vuserbarcode'],
+                    'estatus'   =>  $input['estatus'],
+                    'SID'       => session()->get('sid'),
+                    'mwpassword' => $encdoe_mwpassword,
+                    'vemail' => $vemail,
+                ]);
+
+               User::where('iuserid', '=', $user_id)->update([
+                    'mob_user'  => isset($input['mob']) ? 'Y' : 'N',
+                    'web_user'  => isset($input['web']) ? 'Y' : 'N',
+                    'fname'     => $input['vfname'],
+                    'lname'     => $input['vlname'],
+                    'user_role' => $input['vusertype'],
+                    'iuserid'   => $iuserid,
+                    'estatus'   => 'Active',
+                    'SID'       => session()->get('sid'),
+                    'password' => $encdoe_mwpassword,
+                    'vemail' => $vemail,
+                ]);
+
+
+            // } else {
+            //     UserDynamic::where('iuserid', '=', $iuserid)->update([
+            //         'mob_user'  => isset($input['mob']) ? 'Y' : 'N',
+            //         'web_user'  => isset($input['web']) ? 'Y' : 'N',
+            //         'pos_user'  => isset($input['pos']) ? 'Y' : 'N',
+            //         'vfname'    => $input['vfname'],
+            //         'vlname'    => $input['vlname'],
+            //         'vaddress1' => $input['vaddress1'],
+            //         'vaddress2' => $input['vaddress2'],
+            //         'vcity'     => $input['vcity'],
+            //         'vstate'    => $input['vstate'],
+            //         'vzip'      => $input['vzip'],
+            //         'vcountry'  => $input['vcountry'],
+            //         'vphone'    => $input['vphone'],
+            //         'vuserid'   => $vuserid,
+            //         'vpassword' => $input['vpassword'],
+            //         'vusertype' => $input['vusertype'],
+            //         'vpasswordchange' => $input['vpasswordchange'],
+            //         'vuserbarcode' => $input['vuserbarcode'],
+            //         'estatus'   =>  $input['estatus'],
+            //         'SID'       => session()->get('sid'),
+            //         'mwpassword' => $encdoe_mwpassword,
+            //         'vemail' => $vemail,
+            //     ]);
+
+            //     User::where('vemail', '=', $vemail)->update([
+            //         'mob_user'  => isset($input['mob']) ? 'Y' : 'N',
+            //         'web_user'  => isset($input['web']) ? 'Y' : 'N',
+            //         'fname'     => $input['vfname'],
+            //         'lname'     => $input['vlname'],
+            //         'user_role' => $input['vusertype'],
+            //         'iuserid'   => $iuserid,
+            //         'estatus'   => 'Active',
+            //         'SID'       => session()->get('sid'),
+            //         'password' => $encdoe_mwpassword,
+            //         'vemail' => $vemail,
+            //     ]);
+            // }
+
         }
         return redirect('users')->with('message', 'User Updated Successfully');
     }
@@ -397,7 +441,7 @@ class AllUserController extends Controller
     {
         $delId = $request->all();
         for($i = 0; $i < count($delId['selected']); $i++ ){
-            MstUser::where('iuserid', '=', $delId['selected'][$i] )->delete();
+            UserDynamic::where('iuserid', '=', $delId['selected'][$i] )->delete();
             User::where('iuserid', '=', $delId['selected'][$i])->update(['estatus' => 'Inactive']);
         }
         return redirect('users')->with('message', 'User Deleted Successfully');

@@ -103,6 +103,11 @@
                         <h1 class="panel-title"><i class="fa fa-lock"></i> Please enter your login details.</h1>
                         </div>
                         <div class="panel-body">
+                            @if($errors->any())
+                                <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> No match for Username and/or Password.
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                </div>
+                            @endif
                         <form  method="POST"  action="{{ route('login') }}">
                             @csrf
                             <div class="form-group">
@@ -116,15 +121,11 @@
                             <div class="input-group"><span class="input-group-addon"><i class="fa fa-lock"></i></span>
                                 <input type="password" name="password" value="" placeholder="" id="input-password" class="form-control" />
                             </div>
-
-
                             <span class="help-block" id="forgotten_link"><a href="">Forgot Password</a></span>
-
                             </div>
                             <div class="text-right">
                             <button type="submit" class="btn btn-primary"><i class="fa fa-key"></i> Login</button>
                             </div>
-
                         </form>
                         </div>
                     </div>

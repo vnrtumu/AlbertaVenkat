@@ -4,7 +4,7 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MstUserpermission extends Model
+class Userpermission extends Model
 {
     protected $connection = 'mysql_dynamic';
     protected $table = 'mst_userpermissions';

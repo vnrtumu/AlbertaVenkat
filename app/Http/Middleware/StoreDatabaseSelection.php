@@ -72,6 +72,23 @@ class StoreDatabaseSelection
                 ]]);
 
 
+                if(Auth::user()->user_role && Auth::user()->sid == 0){
+                    $user_id = Auth::user()->iuserid;
+                    $userPermsData = DB::connection('mysql_dynamic')->select("SELECT  mp.vpermissioncode FROM mst_permission mp join mst_userpermissions mup on mp.vpermissioncode = mup.permission_id where mp.vpermissiontype = 'WEB' and mup.status = 'Active' ");
+                }else{
+                    $user_id = Auth::user()->iuserid;
+                    $userPermsData = DB::connection('mysql_dynamic')->select("SELECT  mp.vpermissioncode FROM mst_permission mp join mst_userpermissions mup on mp.vpermissioncode = mup.permission_id where mp.vpermissiontype = 'WEB' and mup.status = 'Active' and mup.userid = ".$user_id);
+                }
+                // dd($userPermsData);
+                $permsData = array();
+                for($i = 0; $i < count($userPermsData); $i++ ){
+                    $permsData = $userPermsData[$i]->vpermissioncode;
+                }
+
+
+                session()->put('userPermsData', $permsData);
+
+
                 session()->put('dbhost',  $data[0]->db_hostname);
                 session()->put('dbname',  $data[0]->db_name);
                 session()->put('dbuser',  $data[0]->db_username);

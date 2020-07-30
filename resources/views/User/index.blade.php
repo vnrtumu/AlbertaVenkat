@@ -38,7 +38,7 @@
             </div>
           </div>
 
-        <form action="" method="post" id="form_user_search">
+        <form action="" id="form_user_search">
           <div class="row">
               <input type="hidden" name="searchbox" id="iuserid">
               <div class="col-md-12">
@@ -53,7 +53,6 @@
             <input type="hidden" name="MenuId" value=""/>
             <div class="table-responsive">
               <table id="users" class="table table-bordered table-hover" style="">
-
                 <thead>
                   <tr>
                     <th style="width: 1px;color:black;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></th>
@@ -140,13 +139,40 @@
 </script>
 <script>
     function myFunction() {
-    //   var result = confirm("Want to delete?");
-    //   if (result) {
-        // $('#user_delete').click(function(){
-            $("form-users").sumbit();
-        // });
-    // }
+        $("form-users").sumbit();
     }
+
+    $(document).on('keyup', '#automplete-product', function(event) {
+      event.preventDefault();
+
+      $('#users tbody tr').hide();
+      var txt = $(this).val().toUpperCase();
+      var td1,td2,td3,td4,td5;
+
+      if(txt != ''){
+        $('#users tbody tr').each(function(){
+
+          td1 = $(this).find("td")[1];
+          td2 = $(this).find("td")[2];
+          td3 = $(this).find("td")[3];
+          td4 = $(this).find("td")[4];
+          td5 = $(this).find("td")[5];
+
+          if (td1 || td2 || td3 || td4 || td5) {
+            if (td1.innerHTML.toUpperCase().indexOf(txt) > -1 || td2.innerHTML.toUpperCase().indexOf(txt) > -1 || td3.innerHTML.toUpperCase().indexOf(txt) > -1 || td4.innerHTML.toUpperCase().indexOf(txt) > -1 || td5.innerHTML.toUpperCase().indexOf(txt) > -1) {
+              $(this).show();
+            } else {
+              $(this).hide();
+            }
+          }
+        });
+      }else{
+        $('#users tbody tr').show();
+      }
+    });
+
+
+$(function() { $('input[name="automplete-product"]').focus(); });
 </script>
 
 

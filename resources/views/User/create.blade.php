@@ -212,7 +212,8 @@
                                     <div class="form-group required">
                                     <label class="col-sm-4 control-label" for="input-vfname">First Name</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="vfname" maxlength="25" value="{{ old('vfname') }}" placeholder="" id="input-vfname" class="form-control" required/>
+                                        <input type="text" name="vfname" maxlength="25" value="{{ old('vfname') }}" placeholder="" id="input-vfname" class="form-control" onkeypress="return (event.charCode > 64 &&
+                                        event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"  required/>
 
                                         {{-- <div class="text-danger" id="vfnameError"></div> --}}
 
@@ -223,7 +224,8 @@
                                     <div class="form-group required">
                                     <label class="col-sm-4 control-label" for="input-vlname">Last Name</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="vlname" maxlength="25" value="{{ old('vlname') }}" placeholder="" id="input-vlname" class="form-control" required/>
+                                        <input type="text" name="vlname" maxlength="25" value="{{ old('vlname') }}" placeholder="" id="input-vlname" class="form-control" onkeypress="return (event.charCode > 64 &&
+                                        event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"  required/>
 
                                         {{-- <div class="text-danger" id="vlnameError"></div> --}}
 
@@ -259,7 +261,8 @@
                                     <div class="form-group">
                                     <label class="col-sm-4 control-label" for="input-city">City</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="vcity" maxlength="25" value="{{ old('vcity') }}" placeholder="" id="input-city" class="form-control" />
+                                        <input type="text" name="vcity" maxlength="25" value="{{ old('vcity') }}" placeholder="" id="input-city" class="form-control" onkeypress="return (event.charCode > 64 &&
+                                        event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"  />
                                     </div>
                                     </div>
                                 </div>
@@ -267,7 +270,8 @@
                                     <div class="form-group">
                                     <label class="col-sm-4 control-label" for="input-state">State</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="vstate" maxlength="25" value="{{ old('vstate') }}" placeholder="" id="input-state" class="form-control" />
+                                        <input type="text" name="vstate" maxlength="25" value="{{ old('vstate') }}" placeholder="" id="input-state" class="form-control" onkeypress="return (event.charCode > 64 &&
+                                        event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"  />
                                     </div>
                                     </div>
                                 </div>
