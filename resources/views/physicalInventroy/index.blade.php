@@ -32,7 +32,7 @@
           <div class="row" style="padding-bottom: 15px;float: right;">
             <div class="col-md-12">
               <div class="">
-                <a href="{{ route('physicalInventroy.create') }}" class="btn btn-primary add_new_btn_rotate"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add New</a>
+                <a href="{{ route('physicalInventroy.get_item_list') }}" class="btn btn-primary add_new_btn_rotate"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add New</a>
               </div>
             </div>
           </div>

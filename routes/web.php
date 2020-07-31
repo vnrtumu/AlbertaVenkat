@@ -59,6 +59,21 @@ Route::group(['middleware' => ['auth','StoreDatabaseSelection']],function(){
     //Physical Inventroy Module Route
     Route::get('physicalInventroy', 'PhysicalInventroyController@index')->name('physicalInventroy');
     Route::get('physicalInventroy/create', 'PhysicalInventroyController@create')->name('physicalInventroy.create');
+    Route::get('physicalInventroy/get_item_list', 'PhysicalInventroyController@get_item_list')->name('physicalInventroy.get_item_list');
+
+    Route::get('physicalInventroy/snapshot', 'PhysicalInventroyController@snapshot');
+    Route::get('physicalInventroy/search', 'PhysicalInventroyController@search');
+    Route::get('physicalInventroy/parent_child_search', 'PhysicalInventroyController@parent_child_search');
+
+    Route::get('physicalInventroy/create_session', 'PhysicalInventroyController@create_session');
+    Route::get('physicalInventroy/get_barcode', 'PhysicalInventroyController@get_barcode');
+    Route::get('physicalInventroy/create_scanned_session', 'PhysicalInventroyController@create_scanned_session');
+    Route::get('physicalInventroy/get_scanned_data', 'PhysicalInventroyController@get_scanned_data');
+    Route::get('physicalInventroy/remove_session_scanned_data', 'PhysicalInventroyController@remove_session_scanned_data');
+    Route::get('physicalInventroy/unset_session_scanned_data', 'PhysicalInventroyController@unset_session_scanned_data');
+
+    Route::get('physicalInventroy/get_categories_by_department', 'PhysicalInventroyController@get_categories_by_department');
+    Route::get('physicalInventroy/get_subcat_by_categories', 'PhysicalInventroyController@get_subcat_by_categories');
 
 
 

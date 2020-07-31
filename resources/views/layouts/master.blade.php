@@ -4,7 +4,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     <title>@yield('title')</title>
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
     <script type="text/javascript" src="{{ asset('javascript/jquery/jquery-2.1.1.min.js') }}"></script>
@@ -15,13 +14,13 @@
     <link href="{{ asset('javascript/summernote/summernote.css') }}" rel="stylesheet" />
 
     <script type="text/javascript" src="{{ asset('javascript/summernote/summernote.js') }}"></script>
+
     <link type="text/css" href="{{ asset('stylesheet/stylesheet.css') }}" rel="stylesheet" media="screen" />
 
     <script src="{{ asset('javascript/common.js') }}"  type="text/javascript"></script>
 
 
     <link rel="stylesheet" href="{{ asset('stylesheet/jquery-ui.css') }}">
-
     <script src="{{ asset('javascript/jquery/jquery-ui.js') }}"></script>
 
 
@@ -76,25 +75,24 @@
 }
 </style>
 
-@section('styles')
+@yield('styles')
 
-@show
 </head>
 <body style="background-color: #fff">
-    {{-- <div id="divLoading" class="show"></div> --}}
+    <div id="divLoading" class="show"></div>
     <header id="header" class="navbar navbar-static-top">
         <div class="navbar-header">
             @guest
             @else
             <a type="button" id="button-menu" id="menu-toggle" class="pull-left"><i class="fa fa-indent fa-lg"></i></a>
             @endguest
-            <a href="" class="navbar-brand" style="color: #fff; font-size: 20px; font-weight: bold;">Alberta Payments (Development)</a>
+            <a href="" class="navbar-brand" style="color: #fff; font-size: 20px; font-weight: bold;">{{ config('app.name') }}</a>
         </div>
 
             @guest
             @else
             <ul class="nav pull-right">
-                <li><a href="" title="Store" onClick="openNavStore()"  class="di_store_name" style="border-left:none;">{{ session()->get('storeName') }} [ {{ session()->get('sid') }}]<i class="fa fa-chevron-down"></i></a></li>
+                <li><a href="" title="Store" onClick="openNavStore()"  class="di_store_name" style="border-left:none;">{{ session()->get('storeName') }} [{{ session()->get('sid') }}] <i class="fa fa-chevron-down"></i></a></li>
                 <li><a href="" title="Reports" onClick="openNavReports()" class="di_reports"><i class="fa fa-bar-chart"></i></a></li>
                 <li><a href="" title="Settings"><i class="fa fa-cog"></i></a></li>
                 <li><a href="" title="Quick Links"><i class="fa fa-external-link"></i></a></li>
@@ -118,14 +116,14 @@
                       <p><input type="text" name="" placeholder="search store" style="width:75%;" class="form-control" id="store_search"></p><br>
 
                       @foreach (session()->get('stores') as $store)
-                        <a style="font-size: 13px; margin-bottom: -5px" href="{{ route('dashboard') }}"
+                        <a class="change_store" style="font-size: 13px; margin-bottom: -5px" href="{{ route('dashboard') }}"
                             onclick="event.preventDefault();
                                         document.getElementById('store-form{{ $store->id }}').submit();">
                             {{ $store->name }} [{{ $store->id }}]
                         </a>
                         <form id="store-form{{ $store->id }}" action="{{ route('dashboard') }}" method="POST" style="display: none;">
                             @csrf
-                            <input type="hidden" name="sid" id="" value="{{ $store->id }}">
+                            <input type="hidden" name="sid" id="sid_{{$store->id}}" value="{{ $store->id }}">
                         </form>
                     @endforeach
                     </div>
@@ -149,15 +147,17 @@
 
 
 
-        @section('main-content')
-
-        @show
+        @yield('main-content')
 
 
         <footer id="footer">
             &copy; 2020 All Rights Reserved.
         </footer>
         <a href="javascript:void(0)" class="scrollToTop" title="Go To Top"><i class="fa fa-arrow-up"></i></a>
+
+        @yield('script_files')
+
+
         <script>
             $("#menu-toggle").click(function(e) {
             e.preventDefault();
@@ -248,17 +248,17 @@
         <script type="text/javascript">
             $(document).on('keyup', '#store_search', function(event) {
                 event.preventDefault();
-                $('p.change_store').hide();
+                $('a.change_store').hide();
                 var txt = $(this).val();
 
                 if(txt != ''){
-                  $('p.change_store').each(function(){
+                  $('a.change_store').each(function(){
                     if($(this).text().toUpperCase().indexOf(txt.toUpperCase()) != -1){
                       $(this).show();
                     }
                   });
                 }else{
-                  $('p.change_store').show();
+                  $('a.change_store').show();
                 }
               });
 
@@ -331,9 +331,17 @@
           }
         </script>
 
-    @section('scripts')
+        <script type="text/javascript">
+            $(window).load(function() {
+              $("div#divLoading").removeClass('show');
+            });
 
-    @show
+            $(window).on('beforeunload', function(){
+              $("div#divLoading").addClass('show');
+            });
+        </script>
+
+    @yield('scripts')
 
 </body>
 </html>
