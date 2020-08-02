@@ -11,4 +11,7 @@ class Category extends Model
 
     protected $primaryKey = 'icategoryid';
     public $timestamps = false;
+
+
+    
 }

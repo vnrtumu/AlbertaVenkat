@@ -39,7 +39,8 @@
             </div>
           </div>
 
-        <form action="" method="post" id="form_vendor_search">
+        <form action="{{ route('vendors') }}" method="post" id="form_vendor_search">
+            @csrf
           <input type="hidden" name="searchbox" id="vendor_name">
           <div class="row">
               <div class="col-md-12">

@@ -31,16 +31,16 @@
                   <div class="">
                         <a href="{{ route('customers.create') }}" title="" class="btn btn-primary add_new_btn_rotate"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add New</a>
                         <button type="button" class="btn btn-danger" id="customer_delete" title="Delete" style="border-radius: 0px;"><i class="fa fa-trash"></i>&nbsp;&nbsp;Delete</button>
-
                   </div>
                 </div>
               </div>
 
-              <form action="" method="post" id="form_vendor_search">
+              <form action="{{ route('customers') }}" method="post" id="form_vendor_search">
+                @csrf
                 <input type="hidden" name="searchbox" id="vendor_name">
                 <div class="row">
                     <div class="col-md-11">
-                        <input type="text" name="automplete-product" class="form-control" placeholder="Search Customer.." id="automplete-product">
+                        <input type="text" autocomplete="off" name="automplete-product" class="form-control" placeholder="Search Customer.." id="automplete-product">
                     </div>
                     <div class="col-md-1">
                         <input type="submit" class="btn btn-info add_new_btn_rotate" value="Search" style="">

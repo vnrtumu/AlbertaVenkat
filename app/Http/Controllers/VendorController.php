@@ -5,25 +5,28 @@ namespace App\Http\Controllers;
 use App\Model\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Laravel\Ui\Presets\React;
 
 class VendorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $vendors = Vendor::orderBy('isupplierid', 'DESC')->paginate(20);
         return view('vendors.index', compact('vendors'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function search(Request $request)
+    {
+        $input = $request->all();
+        $vendors = Vendor::where('vcompanyname', 'LIKE','%'.$input['automplete-product'].'%')->orderBy('isupplierid', 'DESC')->paginate(20);
+        return view('vendors.index', compact('vendors'));
+    }
+
     public function create()
     {
         return view('vendors.create');

@@ -101,18 +101,63 @@ class PhysicalInventory extends Model
         }
     }
 
-    public function getTotalItems($data = array()) {
-        $sql="SELECT COUNT(*) AS total FROM mst_item ";
+    public function getTotalItems($data = array())
+    {
+        $sql = "SELECT COUNT(*) AS total FROM mst_item ";
 
         if (!empty($data['searchbox'])) {
-            $sql .= " WHERE iitemid= ". $data['searchbox'];
-        }else{
-            $sql .= " WHERE estatus= '". $data['show_items']."'";
+            $sql .= " WHERE iitemid= " . $data['searchbox'];
+        } else {
+            $sql .= " WHERE estatus= '" . $data['show_items'] . "'";
         }
 
         $query = DB::connection('mysql_dynamic')->select($sql);
 
         return $query;
     }
-}
 
+    public function snapshot($selected_itemid)
+    {
+        $last_refno = DB::connection('mysql_dynamic')->select("SELECT vrefnumber FROM trn_physicalinventory ORDER BY ipiid DESC LIMIT 1");
+
+        if (isset($last_refno) && !empty($last_refno)) {
+            $vrefnumber = $last_refno['vrefnumber'] + 1;
+            $vrefnumber = str_pad($vrefnumber, 8, '0', STR_PAD_LEFT);
+        } else {
+            $vrefnumber = 1;
+            $vrefnumber = str_pad($vrefnumber, 8, '0', STR_PAD_LEFT);
+        }
+
+        $dcreatedate = date("Y-m-d H:i:s");
+
+        $query_insert = "INSERT INTO trn_physicalinventory SET  vrefnumber = '" . $vrefnumber . "', dcreatedate = '" . $dcreatedate . "', estatus = 'Open', vtype = 'Physical', SID = '" . (int)($this->session->data['sid']) . "' ";
+        $insert  = DB::connection('mysql_dynamic')->select($query_insert);
+        dd($insert);
+        // $ipiid = $this->db2->getLastId();
+        // $ipiid = $insert->lastInsertId();
+
+        if ($insert == true) {
+            foreach ($selected_itemid as $itemid) {
+
+                $itemdata = DB::connection('mysql_dynamic')->select("select vbarcode, iqtyonhand, npack from mst_item where iitemid = '" . $itemid . "'");
+                $this->check_table_mst_physical_inventory_snapshot();
+
+                $insert_item_query = "INSERT INTO mst_physical_inventory_snapshot SET  ipiid = '" . $ipiid . "', iitemid = '" . $this->db->escape($itemid) . "', vbarcode = '" . $this->db->escape($itemdata['vbarcode']) . "', iqtyonhand = '" . $this->db->escape($itemdata['iqtyonhand']) . "', npack = '" . $this->db->escape($itemdata['npack']) . "', created = '" . $dcreatedate . "' ";
+                $insert  = DB::connection('mysql_dynamic')->select($insert_item_query);
+            }
+
+            $text  = "Ref. number " . $vrefnumber . PHP_EOL .
+                "No of snapshot items: " . count($selected_itemid) . PHP_EOL .
+                "-------------------------" . PHP_EOL;
+
+            // $logPhy = new Log('physical_inventory.log');
+
+            // $logPhy->write($text);
+
+            unset($this->session->data['selected_itemid']);
+            unset($this->session->data['scanned_selected_itemid']);
+            $this->session->data['ipiid'] = $ipiid;
+            return $ipiid;
+        }
+    }
+}

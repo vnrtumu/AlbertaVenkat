@@ -14,6 +14,13 @@ class CustomerController extends Controller
         return view('customers.index', compact('customers'));
     }
 
+    public function search(Request $request)
+    {
+        $input = $request->all();
+        $customers = Customer::where('vcustomername','LIKE','%'.$input['automplete-product'].'%')->orWhere('vfname','LIKE','%'.$input['automplete-product'].'%')->orWhere('vlname','LIKE','%'.$input['automplete-product'].'%')->orWhere('vaccountnumber','LIKE','%'.$input['automplete-product'].'%')->orderBy('icustomerid', 'DESC')->paginate(20);
+        return view('customers.index', compact('customers'));
+    }
+
     public function create()
     {
         return view('customers.create');

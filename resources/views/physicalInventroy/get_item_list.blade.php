@@ -81,21 +81,17 @@
                     <button class="btn btn-primary" id="next_btn" style="margin:1px;"><i class="fa fa-plus"></i>&nbsp;&nbsp;Next</button>&nbsp;&nbsp;
                 </div>
             </div>
-
         </div>
-
         <div class="form-group">
                 <input type="checkbox" id="for_scanning" >
                 <label class="control-label" for="input-template">Add Data One By One Using Scanner </label>
         </div>
-
         <div class="box-body table-responsive">
             <div class="listed_item_table" id="listed_item_table">
                 <form method="post" action="{{ $data['url_next'] }}" id="itemlistform">
                     <input type="hidden" name="conditions" id="conditions" >
 		            <table id="item_listing" class="table table-bordered table-striped table-hover" style="table-layout:fixed; font-size:10px;">
 		                <thead>
-
                             <?php $dynamic_data = [];?>
                             <tr>
                               <th style="width: 20px;color:black;" class="text-center"><input type="checkbox" name="selected" id="parent_selected" onchange="$('input[name*=\'selected\']').prop('checked', this.checked);" checked /></th>
@@ -107,9 +103,7 @@
                               <?php $dynamic_data[] = "dunitprice";?>
                               <th class="text-left text-uppercase" style="width:38px;" >COST</th>
                               <?php $dynamic_data[] = "unitcost";?>
-
                               <?php if(isset($data['itemListings']) && count($data['itemListings'])){ ?>
-
                                 <?php foreach($data['itemListings'] as $m => $itemListing){ ?>
                                    <th class="text-left text-uppercase no-sort" style="width:72px !important">{{  $data['title_arr'][$m] }}</th>
                                    <?php if($m == 'vcategorycode'){
@@ -131,55 +125,37 @@
                                 <?php $dynamic_data[] = "vcategoryname";?>
                                 <th class="text-right text-uppercase no-sort" style="width:65px";><?php echo $column_price; ?></th>
                                 <?php $dynamic_data[] = "subcat_name";?>
-
                               <?php } ?>
                               <th class="text-right text-uppercase no-sort" style="width:30px";>QTY. ON HAND</th>
                                 <?php $dynamic_data[] = "iqtyonhand";?>
-
                             </tr>
                         </thead>
-
-
 		            </table>
 		        </form>
 		    </div>
-
-
 		</div>  <!-- /.box-body -->
-
       </div>
     </div>
   </div>
 </div>
 @endsection
 
-
 @section('script_files')
-<link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
-<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-
-<link type="text/css" href="view/stylesheet/select2/css/select2.min.css" rel="stylesheet" />
-
-
-<!-- DataTables -->
-<script src="/view/javascript/jquery.dataTables.min.js"></script>
-
-<script src="/view/javascript/dataTables.bootstrap.min.js"></script>
-<script src="view/javascript/select2/js/select2.min.js"></script>
-<script src="view/javascript/bootbox.min.js" defer></script>
-
-<!----  Session ----->
-
-<script src="/view/javascript/jquery/jquery.session.js"></script>
+    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
+    <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <link type="text/css" href="{{ asset('stylesheet/select2/css/select2.min.css') }}" rel="stylesheet" />
+    <!-- DataTables -->
+    <script src="{{ asset('javascript/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('javascript/dataTables.bootstrap.min.js') }}"></script>
+    <script src="{{ asset('javascript/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('javascript/bootbox.min.js') }}" defer></script>
+    <!----  Session ----->
+    <script src="{{ asset('javascript/jquery/jquery.session.js') }}"></script>
 @endsection
 
-
 @section('scripts')
-
     <script>
-
         $(document).on('change', '#price_select_by', function(){
-
             var select_by = $(this).val();
             var html='';
             if(select_by === 'between'){
@@ -192,13 +168,10 @@
                 // $('#selectByValuesSpan').html('not between');
             }
             $('#selectByValuesSpan').html(html);
-
         });
-
     </script>
 
     <script>
-
         var table;  //declare table variable global
         $(document).ready(function() {
 
@@ -243,26 +216,25 @@
             else if(title == "PRICE"){
                 $(this).html(price_select_by);
             }
-            else if(title == "DEPT.")
+            else if(title == "Dept.")
             {
                 $(this).html(departments)
             }
-            // else if(title == "Category")
-            // {
-            //     $(this).html(category)
-            // }
-            // else if(title == "Sub Category")
-            // {
-            //     $(this).html(subcategory)
-            // }
-            // else if(title == "Supplier")
-            // {
-            //     $(this).html(supplier)
-            // }
+            else if(title == "Category")
+            {
+                $(this).html(category)
+            }
+            else if(title == "Sub Category")
+            {
+                $(this).html(subcategory)
+            }
+            else if(title == "Supplier")
+            {
+                $(this).html(supplier)
+            }
             else{
                 $(this).html( '' );
             }
-
             var timer;
 
             $( '.search_text_box', this ).on( 'keyup change', function () {
@@ -281,15 +253,9 @@
 
             //========filter for price==============
             $(document).on( 'input', '.search_text_box1', function () {
-
                 var selectBy = $("#price_select_by").val();
                 var select_by_value_1 = $('#select_by_value_1').val();
-
                 var select_by_value_2 = $('#select_by_value_2').val();
-
-                // console.log($('#price_select_by').val());
-
-
                 var searchVal = ''
                 if(selectBy){
                     searchVal += selectBy
@@ -300,8 +266,6 @@
                 if(select_by_value_2){
                     searchVal += ('|'+select_by_value_2)
                 }
-
-
                     clearTimeout(timer);
                     timer = setTimeout(function () {
 
@@ -311,14 +275,10 @@
                             .draw();
 
                     },0);
-
-
             } );
-
 
             $( '#price_select_by', this ).on( 'change', function () {
                 var self = this;
-
                 clearTimeout(timer);
                 timer = setTimeout(function () {
                     if ( table.column(i).search() !== self.value ) {
@@ -335,7 +295,6 @@
                         $.each($('#dept_code option:selected'), function(){
                             search.push(this.value);
                         });
-
                         search = search.join("','");
                     table
                         .column(5)
@@ -347,7 +306,6 @@
                 $.each($('#category_code option:selected'), function(){
                             search.push(this.value);
                         });
-
                         search = search.join("','");
                     table
                         .column(6)
@@ -360,7 +318,6 @@
                 $.each($('#supplier_code option:selected'), function(){
                             search.push(this.value);
                         });
-
                         search = search.join("','");
                     table
                         .column(8)
@@ -372,14 +329,12 @@
                 $.each($('#subcat_id option:selected'), function(){
                             search.push(this.value);
                         });
-
                         search = search.join("','");
                     table
                         .column(7)
                         .search( search )
                         .draw();
             } );
-
         } );
 
         $(document).on("change","#dept_code",function(){
@@ -387,9 +342,8 @@
             if($(this).val() != "")
             {
                 $('#category_code').attr("placeholder", "Loading...");
-                var get_categories_url = "{{ $data['get_categories_url'] }}";
+                var get_categories_url = "<?php echo $data['get_categories_url']; ?>";
                 get_categories_url = get_categories_url.replace(/&amp;/g, '&');
-
                 var get_department_items_url = '';
                 get_department_items_url = get_department_items_url.replace(/&amp;/g, '&');
                 var dep_code = [$(this).val()];
@@ -397,9 +351,11 @@
                 if(get_category_ajax && get_category_ajax.readyState != 4 ){
                     get_category_ajax.abort();
                 }
-
                 get_category_ajax = $.ajax({
                     url: get_categories_url,
+                    headers: {
+                        'X-CSRF-TOKEN': '<?php echo csrf_token();  ?>'
+                    },
                     type: 'post',
                     data : {dep_code : dep_code},
                     success:function(data){ console.log(data);
@@ -414,7 +370,6 @@
                             $( '#category_code' ).html( '' );
                             $('#category_code').prop("disabled", true);
                         }
-
                     }
                 })
             }
@@ -433,9 +388,11 @@
                 if(get_subcategory_ajax && get_subcategory_ajax.readyState != 4 ){
                     get_subcategory_ajax.abort();
                 }
-
                 get_category_ajax = $.ajax({
                     url: get_subcategories_url,
+                    headers: {
+                        'X-CSRF-TOKEN': '<?php echo csrf_token();  ?>'
+                    },
                     type: 'post',
                     data : {category_code : category_code},
                     success:function(data){ console.log(data);
@@ -450,7 +407,6 @@
                             $( '#subcat_id' ).html( '' );
                             $('#subcat_id').prop("disabled", true);
                         }
-
                     }
                 })
             }
@@ -461,8 +417,6 @@
         $("#subcat_id").select2({closeOnSelect:true,placeholder: 'Select Sub Category'});
         $("#supplier_code").select2({closeOnSelect:true,placeholder: 'Select Supplier'});
         // $("#price_select_by").select2();
-
-
         var dynamic_data = JSON.parse('<?php echo json_encode($dynamic_data);?>');
         var data_array = [];
         $.each(dynamic_data, function(key,value) {
@@ -479,57 +433,38 @@
                                 })[0].outerHTML;
                             }});
 
-            table =   $("#item_listing").DataTable({
-
-                    "bSort": false,
-                    "autoWidth": false,
-                    "fixedHeader": true,
-                    "processing": true,
-                    "iDisplayLength": 20,
-                    "serverSide": true,
-
-                    "bLengthChange": false,
-                    // "aoColumns": [
-                    //     { "sWidth": "30px" },
-                    //     { "sWidth": "100px" },
-                    //     { "sWidth": "100px" },
-                    //     { "sWidth": "310px" },
-                    //     { "sWidth": "50px" },
-                    //     { "sWidth": "100px" },
-                    //     { "sWidth": "100px" },
-                    //     { "sWidth": "100px" },
-                    //     { "sWidth": "100px" },
-                    //     { "sWidth": "50px" }
-
-                    // ],
-                    "language": {
-                        search: "_INPUT_",
-
-                        searchPlaceholder: "Search..."
-                    },
-                    "dom": '<"mysearch"lf>rt<"bottom"ip>',
-
-
-                    "ajax": {
-                    url: url,
-                    type: 'POST',
-
-                    "dataSrc": function ( json ) {
-
-                            $("div#divLoading").removeClass('show');
-                            return json.data;
+            table = $("#item_listing").DataTable({
+                            "bSort": false,
+                            "autoWidth": false,
+                            "fixedHeader": true,
+                            "processing": true,
+                            "iDisplayLength": 20,
+                            "serverSide": true,
+                            "bLengthChange": false,
+                            "language": {
+                                search: "_INPUT_",
+                                searchPlaceholder: "Search..."
+                            },
+                            "dom": '<"mysearch"lf>rt<"bottom"ip>',
+                            "ajax": {
+                                url: url,
+                                headers: {
+                                    'X-CSRF-TOKEN': '<?php echo csrf_token();  ?>'
+                                },
+                                type: 'POST',
+                                "dataSrc": function ( json ) {
+                                    $("div#divLoading").removeClass('show');
+                                    return json.data;
+                                }
+                            },
+                            columns : data_array,
+                    }).on('draw', function(){
+                        if($('#parent_selected').prop("checked") == true){
+                            $('.iitemid').prop('checked', true);
+                        } else{
+                            $('.iitemid').prop('checked', false);
                         }
-                    },
-                    columns : data_array,
-
-                }).on('draw', function(){
-                    if($('#parent_selected').prop("checked") == true){
-
-                        $('.iitemid').prop('checked', true);
-                    } else{
-                    $('.iitemid').prop('checked', false);
-                    }
-                });
+                    });
 
         var totalDisplayRecord = table.page.info().recordsDisplay;
         console.log(totalDisplayRecord);
@@ -543,10 +478,10 @@
         var selected = [];
         $(document).ready(function(event){
 
-            var session_url = "{{ $data['session_url'] }}" ;
+            var session_url = "<?php echo $data['session_url']; ?>" ;
             session_url = session_url.replace(/&amp;/g, '&');
 
-            var scanned_session_url = "{{ $data['scanned_session_url'] }}" ;
+            var scanned_session_url = "<?php echo $data['scanned_session_url']; ?>" ;
             scanned_session_url = scanned_session_url.replace(/&amp;/g, '&');
 
             $(document).on('click', '.iitemid', function () {
@@ -559,6 +494,9 @@
 
                         $.ajax({
                             url: session_url,
+                            headers: {
+                                'X-CSRF-TOKEN': '<?php echo csrf_token();  ?>'
+                            },
                             type: 'post',
                             data : {itemid : itemId},
                             success:function(data){
@@ -596,9 +534,11 @@
                         $('.iitemid').filter(':checked').each(function(){
                         scanned_iitemid.push($(this).data('order'));
                     });
-
                         $.ajax({
                                     url: scanned_session_url,
+                                    headers: {
+                                        'X-CSRF-TOKEN': '<?php echo csrf_token();  ?>'
+                                    },
                                     type: 'post',
                                     data : {itemid : scanned_iitemid},
                                     success:function(data){
@@ -616,14 +556,11 @@
                                     }
                             });
                     },2000);
-
                     setTimeout(function(){
                         $('#sku_search').val('');
                     },3000);
                 }
-
             });
-
             //========validation on next button =============
             $('#next_btn', this).on('click', function(){
                 var count =0;
@@ -632,25 +569,19 @@
                     count = count + 1;
                     selected[i] = $(this).val();
                 });
-
                 if($('#parent_selected').prop("checked") == true){
-
                     parentcount = parentcount + 1;
                 }
-                // console.log("length "+scanned_iitemid.length);
-
-                var item_search = $('#item_search').val();  console.log(item_search); console.log(sku_search);
+                var item_search = $('#item_search').val();
                 var sku_search = $('#sku_search').val();
                 var price_select_by = $('#price_select_by').val();
                 var department = $('#dept_code').val();
                 var category = $('#category_code').val();
                 var subcategory = $('#subcat_id').val();
                 var supplier = $('#supplier_code').val();
-
                 var no_of_rows = $('#item_listing tr').length;
                 var empty = $('.dataTables_empty').text();
                 if(empty == 'No data available in table'){
-
                     bootbox.confirm({
                                     size: 'small',
                                     title: "Attention",
@@ -680,141 +611,118 @@
                                     callback: function(result){
                                     }
                                 });
-
                 }else if($('#for_scanning').prop("checked") == true && scanned_iitemid.length > 0 ){
-
                     $('#conditions').val('scanned_data');
                     $('#itemlistform').submit();
-                    // alert('check '+$('#scanned_data_table tr').length);
                 }else if($('#for_scanning').prop("checked") == false){
-
                     $('#conditions').val('session_filters_data'); //==this is for both session and filters data===
                     $('#itemlistform').submit();
                 }
-
             });
-
         });
-
-
     </script>
 
     <script type="text/javascript">
-
         $(document).ready(function() {
-
-            var get_scanned_data = "{{ $data['get_scanned_data'] }}";
+            var get_scanned_data = "<?php echo $data['get_scanned_data']; ?>";
             get_scanned_data = get_scanned_data.replace(/&amp;/g, '&');
-
             $('#scanned_items_model').on('click', function(){
-
-                    $("#scanned_data_table tbody").empty();
-                    $.ajax({
-                            url: get_scanned_data,
-                            type: 'get',
-                            success:function(data){
-                                if(data.success == true)
-                                {
-                                    var newRowContent = '';
-                                    $(data.scanned_data).each(function(index, e){
-
-                                        newRowContent += "<tr id='"+index+"'>";
-                                        newRowContent += "<td><center><input type='checkbox' name='itemid_selected' class='itemid' id='itemid_"+index+"' data-itemid='"+e.iitemid+"' data-row='"+index+"'></center></td>";
-                                        newRowContent += "<td>"+ e.vbarcode +"</td>";
-                                        newRowContent += "<td>"+ e.vitemname +"</td>";
-                                        newRowContent += "<td>"+ e.iqtyonhand +"</td>";
-                                        newRowContent += "<td>"+ e.unitcost +"</td>";
-                                        newRowContent += "</tr>";
-
-                                        $("#scanned_data_table tbody").append(newRowContent);
-                                        $('#viewModal').modal('show');
-
-                                        newRowContent = '';
-                                    });
-                                }
-                                else
-                                {
-                                    $('#errorModal').modal('show');
-                                    console.log(data);
-                                    console.log('failed');
-                                }
-
-                            }
-                    });
-
-
+                $("#scanned_data_table tbody").empty();
+                $.ajax({
+                    url: get_scanned_data,
+                    headers: {
+                        'X-CSRF-TOKEN': '<?php echo csrf_token();  ?>'
+                    },
+                    type: 'get',
+                    success:function(data){
+                        if(data.success == true)
+                        {
+                            var newRowContent = '';
+                            $(data.scanned_data).each(function(index, e){
+                                newRowContent += "<tr id='"+index+"'>";
+                                newRowContent += "<td><center><input type='checkbox' name='itemid_selected' class='itemid' id='itemid_"+index+"' data-itemid='"+e.iitemid+"' data-row='"+index+"'></center></td>";
+                                newRowContent += "<td>"+ e.vbarcode +"</td>";
+                                newRowContent += "<td>"+ e.vitemname +"</td>";
+                                newRowContent += "<td>"+ e.iqtyonhand +"</td>";
+                                newRowContent += "<td>"+ e.unitcost +"</td>";
+                                newRowContent += "</tr>";
+                                $("#scanned_data_table tbody").append(newRowContent);
+                                $('#viewModal').modal('show');
+                                newRowContent = '';
+                            });
+                        }
+                        else
+                        {
+                            $('#errorModal').modal('show');
+                            console.log(data);
+                            console.log('failed');
+                        }
+                    }
+                });
             });
 
             var remove_scanned_itemid = [];
             var remove_rows = [];
-            var remove_session_scanned_data = "{{ $data['remove_session_scanned_data'] }}";
+            var remove_session_scanned_data = "<?php echo $data['remove_session_scanned_data']; ?>";
             remove_session_scanned_data = remove_session_scanned_data.replace(/&amp;/g, '&');
-
             $("#viewModal").on('click','#remove_button',function(){
-
-                // $(this).parent().parent().remove(); //===for remove row wise==
-                // var remove_session_scanned_data = $(this).parent("#scanned_data_table").parent('.iitemid').val(); alert(remove_session_scanned_data);
-
                 $('.itemid').filter(':checked').each(function(){
                         remove_scanned_itemid.push($(this).data('itemid'));
                         remove_rows.push($(this).data('row'));
-                }); console.log(remove_scanned_itemid);
-
+                });
+                console.log(remove_scanned_itemid);
                 $.ajax({
-                            url: remove_session_scanned_data,
-                            type: 'post',
-                            data : {itemid : remove_scanned_itemid},
-                            success:function(data){
-                                if(data.success == true)
-                                {
-                                    console.log(data.success_msg);
-                                    console.log(data.item_id);
-                                }
-                                else if(data.success == false)
-                                {
-                                    console.log(data.item_id);
-                                    console.log('failed');
-                                }
-
-                            }
-                    });
-
+                    url: remove_session_scanned_data,
+                    headers: {
+                        'X-CSRF-TOKEN': '<?php echo csrf_token();  ?>'
+                    },
+                    type: 'post',
+                    data : {itemid : remove_scanned_itemid},
+                    success:function(data){
+                        if(data.success == true)
+                        {
+                            console.log(data.success_msg);
+                            console.log(data.item_id);
+                        }
+                        else if(data.success == false)
+                        {
+                            console.log(data.item_id);
+                            console.log('failed');
+                        }
+                    }
+                });
                 $(remove_rows).each(function(index, e){
                     $('#'+e).remove();
                 });
-
                 $(remove_scanned_itemid).each(function(index, e){
                     scanned_iitemid = $.grep(scanned_iitemid, function(value) {
                     return value != e;
                     });
                 });
             });
-
         });
     </script>
 
-<!-- Modal -->
-
+    <!-- Modal -->
     <div class="modal fade" id="errorModal" role="dialog">
-    <div class="modal-dialog modal-sm">
-        <!-- Modal content-->
-        <div class="modal-content">
-        <div class="modal-header" style="border-bottom:none;">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        <div class="modal-body">
-            <div class="alert alert-success text-center">
-            <p id="success_msg"><strong>No data Found</strong></p>
+        <div class="modal-dialog modal-sm">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header" style="border-bottom:none;">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-success text-center">
+                        <p id="success_msg"><strong>No data Found</strong></p>
+                    </div>
+                </div>
             </div>
         </div>
-        </div>
-    </div>
     </div>
 
 
     <div class="modal fade" id="viewModal" role="dialog">
         <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
@@ -841,9 +749,7 @@
                                         <th class="text-center" style="vertical-align : middle;">Item Name</th>
                                         <th class="text-center" >QOH</th>
                                         <td class="text-center" >Price</td>
-
                                     </tr>
-
                                 </thead>
                                 <tbody id="cal_post_table">
 
@@ -864,63 +770,52 @@
     </div>
 
     <script type="text/javascript">
-
-
         $(function() { $('[name="automplete-search-box"]').focus(); });
     </script>
 
-<script type="text/javascript">
-
-    $(document).ready(function() {
-
-        $('#scanned_items_model').attr("disabled", true);
-
-        $('#for_scanning').on('click', function(){
-            if($('#for_scanning').prop("checked") == true){
-
-                $('#parent_selected').prop("checked", false);
-                $('.iitemid').prop("checked", false);
-                $('#scanned_items_model').attr("disabled", false);
-                $('#sku_search').focus();
-            }else{
-                $('#parent_selected').prop("checked", true);
-                $('.iitemid').prop("checked", true);
-                $('#scanned_items_model').attr("disabled", true);
-            }
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#scanned_items_model').attr("disabled", true);
+            $('#for_scanning').on('click', function(){
+                if($('#for_scanning').prop("checked") == true){
+                    $('#parent_selected').prop("checked", false);
+                    $('.iitemid').prop("checked", false);
+                    $('#scanned_items_model').attr("disabled", false);
+                    $('#sku_search').focus();
+                }else{
+                    $('#parent_selected').prop("checked", true);
+                    $('.iitemid').prop("checked", true);
+                    $('#scanned_items_model').attr("disabled", true);
+                }
+            });
         });
-
-
-    });
-</script>
-
+    </script>
 
     <script type="text/javascript">
         $(document).ready(function(){
+            $(window).load(function() {
+                $("div#divLoading").removeClass('show');
+            });
 
-        $(window).load(function() {
-            $("div#divLoading").removeClass('show');
-        });
-
-            var unset_session_scanned_data = "{{ $data['unset_session_scanned_data'] }}";
+            var unset_session_scanned_data = "<?php echo $data['unset_session_scanned_data']; ?>";
             unset_session_scanned_data = unset_session_scanned_data.replace(/&amp;/g, '&');
-
             $.ajax({
-                            url: unset_session_scanned_data,
-                            type: 'get',
-                            success:function(data){
-                                if(data.success == true)
-                                {
-                                    console.log(data);
-                                }
-                                else
-                                {
-                                    console.log(data);
-                                }
-
-                            }
-                    });
-
-
+                url: unset_session_scanned_data,
+                headers: {
+                    'X-CSRF-TOKEN': '<?php echo csrf_token();  ?>'
+                },
+                type: 'get',
+                success:function(data){
+                    if(data.success == true)
+                    {
+                        console.log(data);
+                    }
+                    else
+                    {
+                        console.log(data);
+                    }
+                }
+            });
         });
     </script>
 @endsection
