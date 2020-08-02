@@ -34,7 +34,7 @@ class CustomerController extends Controller
 
         if(count($duplicateCust) > 0){
             return redirect('customers/create')
-                        ->withErrors("Vendor id is already exists.")
+                        ->withErrors("Customer Phone is already exists.")
                         ->withInput();
         }else {
             Customer::create([

@@ -313,9 +313,6 @@ class AllUserController extends Controller
             $encdoe_mwpassword = $db_store_mw_user;
         }
 
-        //encode the POS password
-        // $encdoe_password = $this->encodePassword($input['vpassword']);
-
         if (isset($input['vpassword'])) {
             $encdoe_password = $input['vpassword'];
         } else {
@@ -330,7 +327,6 @@ class AllUserController extends Controller
                 $duplicateMstuser = UserDynamic::where('vemail', '=', $input['vemail'])->get();
             }
         } else {
-
             $vemail = $mst_user->vemail;
         }
         if (isset($input['vuserid']) && $mst_user->vuserid != $input['vuserid']) {

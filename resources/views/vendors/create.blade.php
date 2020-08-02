@@ -33,14 +33,14 @@
           <div class="row" style="padding-bottom: 9px;float: right;">
             <div class="col-md-12">
               <div class="">
-                <button type="submit" id="form-vendor" data-toggle="tooltip" title="" class="btn btn-primary save_btn_rotate"><i class="fa fa-save"></i>&nbsp;&nbsp;Save</button>
+                <button type="submit" id="form-vendor"  title="" class="btn btn-primary"><i class="fa fa-save"></i>&nbsp;&nbsp;Save</button>
                 <a href="{{ route('vendors') }}" data-toggle="tooltip" title="" class="btn btn-default cancel_btn_rotate"><i class="fa fa-reply"></i>&nbsp;&nbsp;Cancel</a>
               </div>
             </div>
           </div>
           <div class="clearfix"></div>
 
-          <form action="{{ route('vendors.store') }}" method="post" enctype="multipart/form-data" id="form-vendor" class="form-horizontal">
+          <form action="{{ route('vendors.store') }}" method="post" enctype="multipart/form-data" id="vendorForm" class="form-horizontal">
             @csrf
             <input type="hidden" name="estatus" value="Active">
             <div class="row">
@@ -49,6 +49,8 @@
                   <label class="col-sm-4 control-label" for="input-vendor-name">Vendor Name</label>
                   <div class="col-sm-8">
                     <input type="text" name="vcompanyname" maxlength="50" value="{{ old('vcompanyname') }}" placeholder="vendor Name" id="input-vendor-name" class="form-control" required />
+
+                    <span id="error"></span>
                   </div>
                 </div>
               </div>
@@ -69,23 +71,25 @@
             </div>
 
             <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="col-sm-4 control-label" for="input-first-name">First Name</label>
-                  <div class="col-sm-8">
-                    <input type="text" name="vfnmae" maxlength="25" value="{{ old('vfname') }}" placeholder="" id="input-first-name" class="form-control" />
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="col-sm-4 control-label" for="input-first-name">First Name</label>
+                    <div class="col-sm-8">
+                      <input type="text" name="vfnmae" maxlength="25" value="{{ old('vfname') }}" placeholder="" id="input-first-name" class="form-control" onkeypress="return (event.charCode > 64 &&
+                                          event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="col-sm-4 control-label" for="input-last-name">Last Name</label>
+                    <div class="col-sm-8">
+                      <input type="text" name="vlname" maxlength="25" value="{{ old('vlname') }}" placeholder="" id="input-last-name" class="form-control" onkeypress="return (event.charCode > 64 &&
+                                          event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)" />
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="col-sm-4 control-label" for="input-last-name">Last Name</label>
-                  <div class="col-sm-8">
-                    <input type="text" name="vlname" maxlength="25" value="{{ old('vlname') }}" placeholder="" id="input-last-name" class="form-control" />
-                  </div>
-                </div>
-              </div>
-            </div>
 
             <div class="row">
               <div class="col-md-6">
@@ -107,23 +111,25 @@
             </div>
 
             <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="col-sm-4 control-label" for="input-city">City</label>
-                  <div class="col-sm-8">
-                    <input type="text" name="vcity" maxlength="20" value="{{ old('vcity') }}" placeholder="" id="input-city" class="form-control" />
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="col-sm-4 control-label" for="input-city">City</label>
+                    <div class="col-sm-8">
+                      <input type="text" name="vcity" maxlength="20" value="{{ old('vcity') }}" placeholder="" id="input-city" class="form-control" onkeypress="return (event.charCode > 64 &&
+                                          event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="col-sm-4 control-label" for="input-state">State</label>
+                    <div class="col-sm-8">
+                      <input type="text" name="vstate" maxlength="20" value="{{ old('vstate') }}" placeholder="" id="input-state" class="form-control" onkeypress="return (event.charCode > 64 &&
+                                          event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)" />
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="col-sm-4 control-label" for="input-state">State</label>
-                  <div class="col-sm-8">
-                    <input type="text" name="vstate" maxlength="20" value="{{ old('vstate') }}" placeholder="" id="input-state" class="form-control" />
-                  </div>
-                </div>
-              </div>
-            </div>
 
             <div class="row">
               <div class="col-md-6">
@@ -198,4 +204,20 @@
     </div>
 
 </div>
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function () {
+            $("#error").removeClass("text-danger");
+            $("#form-vendor").click(function(){
+                var vcompanyname = $("#input-vendor-name").val();
+                if(vcompanyname === ''){
+                    $("#error").val() = "Vendor Name is required!";
+                }else {
+                    $("#vendorForm").submit();
+                }
+            })
+        })
+    </script>
 @endsection

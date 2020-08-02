@@ -39,7 +39,7 @@ Route::group(['middleware' => ['auth','StoreDatabaseSelection']],function(){
     //vendor MOdel Route
     Route::get('vendors', 'VendorController@index')->name('vendors');
     Route::post('vendors', 'VendorController@search')->name('vendors');
-
+    Route::post('vendors/edit_list', 'VendorController@edit_list');
     Route::get('vendors/create', 'VendorController@create')->name('vendors.create');
     Route::post('vendors/store', 'VendorController@store')->name('vendors.store');
     Route::post('vendors/remove', 'VendorController@remove')->name('vendors.remove');

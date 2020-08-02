@@ -36,14 +36,14 @@
           <div class="row" style="padding-bottom: 9px;float: right;">
             <div class="col-md-12">
               <div class="">
-                <button type="submit" id="saveCustomer" form="form-customer" data-toggle="tooltip"  class="btn btn-primary save_btn_rotate"><i class="fa fa-save"></i>&nbsp;&nbsp;Save</button>
+                <button type="submit" id="saveCustomer"   class="btn btn-primary"><i class="fa fa-save"></i>&nbsp;&nbsp;Save</button>
                 <a href="{{ route('customers') }}" data-toggle="tooltip" class="btn btn-default cancel_btn_rotate"><i class="fa fa-reply"></i>&nbsp;&nbsp;Cancel</a>
               </div>
             </div>
           </div>
           <div class="clearfix"></div>
 
-          <form action="{{ route('customers.store') }}" method="post" enctype="multipart/form-data" id="form-customer" class="form-horizontal">
+          <form action="{{ route('customers.store') }}" method="post" enctype="multipart/form-data" id="customerForm" class="form-horizontal">
             @csrf
           <input type="hidden" name="estatus" value="Active">
             <div class="row">
@@ -51,7 +51,8 @@
                 <div class="form-group required">
                   <label class="col-sm-4 control-label" for="input-customer">Customer</label>
                   <div class="col-sm-8">
-                    <input type="text" name="vcustomername" maxlength="50" value="{{ old('vcustomername') }}" placeholder="" id="input-customer" class="form-control" />
+                    <input type="text" name="vcustomername" maxlength="50" value="{{ old('vcustomername') }}" placeholder="" id="vcustomername" class="form-control" />
+                    <span id="vcustomernameerror" style="color: red"></span>
                   </div>
                 </div>
               </div>
@@ -136,20 +137,19 @@
                 <div class="form-group required">
                   <label class="col-sm-4 control-label" for="input-phone">Phone</label>
                   <div class="col-sm-8">
-                    <input type="text" name="vphone" maxlength="20" value="{{ old('vphone') }}" placeholder="" id="input-phone" class="form-control" />
+                    <input type="text" name="vphone" maxlength="20" value="{{ old('vphone') }}" placeholder="" id="vphone" class="form-control" />
+                    <span id="vphoneerror" style="color: red"></span>
                   </div>
                 </div>
               </div>
             </div>
-
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
                   <label class="col-sm-4 control-label" for="input-email">Email</label>
                   <div class="col-sm-8">
-                    <input type="email" name="vemail" maxlength="100" value="{{ old('vemail') }}" placeholder="" id="input-email" class="form-control" />
-
-
+                    <input type="email" name="vemail" maxlength="100" value="{{ old('vemail') }}" placeholder="" id="email_field" class="form-control" />
+                    <span id="email-error" style="color: red"></span>
                   </div>
                 </div>
               </div>
@@ -167,7 +167,6 @@
                 </div>
               </div>
             </div>
-
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
@@ -190,15 +189,14 @@
             <div class="row">
               <div class="col-md-6">
                   <div class="form-group">
-                          <label class="col-sm-4 control-label" for="input-zip">Status</label>
-                          <div class="col-sm-8">
-                              <select name="estatus" class="form-control">
-                                  <option value="Active" {{ old('estatus') == 'Active' ? 'selected' : ''}}>Active</option>
-                                  <option value="Deactive" {{ old('estatus') == 'Deactive' ? 'selected' : ''}}  >Deactive</option>
-                              </select>
-                          </div>
-                      </div>
-
+                        <label class="col-sm-4 control-label" for="input-zip">Status</label>
+                        <div class="col-sm-8">
+                            <select name="estatus" class="form-control">
+                                <option value="Active" {{ old('estatus') == 'Active' ? 'selected' : ''}}>Active</option>
+                                <option value="Deactive" {{ old('estatus') == 'Deactive' ? 'selected' : ''}}  >Deactive</option>
+                            </select>
+                        </div>
+                  </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
@@ -242,6 +240,58 @@
 
       $('input[name="vaccountnumber"]').val(ac_number);
     });
+  </script>
+  <script>
+      $(document).ready(function(){
+        $("#email_field").change(function(){
+            var email = $("#email_field").val();
+            var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            if(regex.test(email)) {
+                // return true;
+            } else {
+                $("#email-error").text("Invalid Email Address");
+                return false;
+            }
+        })
+        var us_phone_regex = '1?\W*([2-9][0-8][0-9])\W*([2-9][0-9]{2})\W*([0-9]{4})(\se?x?t?(\d*))?';
+            $('#saveCustomer').click(function(){
+                var vcustomername = $('#vcustomername').val();
+                var email = $("#email_field").val();
+                var vphone = $('#vphone').val();
+                if(vcustomername== ''){
+                    $("#vcustomernameerror").text("Please enter Customer");
+                        return false;
+                    }
+                    if(vphone == ''){
+                        $("#vphoneerror").text("Please Enter Mobile Number");
+                        return false;
+                    }
+                    if(IsPhone(vphone)==false){
+                        $("#vphoneerror").text("Invalid Phone number");
+                        return false;
+                    }
+                    if(vcustomername != ''  && vphone != '' && IsPhone(vphone)==true){
+
+                        $("#customerForm").submit();
+                    }
+            });
+      });
+      function IsEmail(email) {
+        var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        if(!regex.test(email)) {
+           return false;
+        }else{
+           return true;
+        }
+      }
+      function IsPhone(vphone){
+        var regex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+        if(!regex.test(vphone)) {
+           return false;
+        }else{
+           return true;
+        }
+      }
 
 
 

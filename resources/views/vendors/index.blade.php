@@ -15,7 +15,6 @@
       </div>
     </div>
     <div class="container-fluid">
-
         @if (session()->has('message'))
             <div class="alert alert-success"><i class="fa fa-exclamation-circle"></i>
                 {{session()->get('message')}}
@@ -44,7 +43,7 @@
           <input type="hidden" name="searchbox" id="vendor_name">
           <div class="row">
               <div class="col-md-12">
-                  <input type="text" name="automplete-product" class="form-control" placeholder="Search Vendor..." id="automplete-product">
+                  <input type="text" autocomplete="off" name="automplete-product" class="form-control" placeholder="Search Vendor..." id="automplete-product">
               </div>
           </div>
         </form>
@@ -68,47 +67,55 @@
                   </tr>
                 </thead>
                 <tbody>
+
+                    <?php $vendor_row = 1;$i=0; $selected = array(); ?>
                     @foreach ($vendors as $vendor)
-                        <tr id="vendor-row">
-                            <td data-order="" class="text-center">
-                                <span style="display:none;"></span>
-                                <input type="checkbox" name="selected[]" id="" value="{{ $vendor->isupplierid }}"  />
-                            </td>
-                            <td class="text-left">
-                                <span style="">{{ $vendor->vsuppliercode }}</span>
-                                {{-- <input type="hidden" name="" value=""/>
-                                <input type="hidden" name="" value=""/> --}}
-                            </td>
+                    <tr id="vendor-row{{ $vendor_row }}">
+                        <td data-order="<?php echo $vendor->isupplierid; ?>" class="text-center">
+                        <span style="display:none;"><?php echo $vendor->isupplierid; ?></span>
+                        <?php if (in_array($vendor->isupplierid, $selected)) { ?>
+                          <input type="checkbox" name="selected[]" id="vendor[<?php echo $vendor_row; ?>][select]" value="<?php echo $vendor->isupplierid; ?>" checked="checked" />
+                          <?php } else { ?>
+                          <input type="checkbox" name="selected[]" id="vendor[<?php echo $vendor_row; ?>][select]"  value="<?php echo $vendor->isupplierid; ?>" />
+                        <?php } ?></td>
 
-                            <td class="text-left">
-                                <span style="">{{ $vendor->vcode }}</span>
-                                {{-- <input type="hidden" name="" value=""/>
-                                <input type="hidden" name="" value=""/> --}}
-                            </td>
 
-                            <td class="text-left">
-                            <span>{{ $vendor->vcompanyname }}</span>
-                            {{-- <input type="text" class="editable vendors_c" maxlength="50" name="" id="" value="" /> --}}
-                            </td>
+                        <td class="text-left">
+                            <span style=""><?php echo $vendor->vsuppliercode; ?></span>
+                            <input type="hidden" name="vendor[<?php echo $i; ?>][vsuppliercode]" value="<?php echo $vendor->vsuppliercode; ?>"/>
+                            <input type="hidden" name="vendor[<?php echo $i; ?>][isupplierid]" value="<?php echo $vendor->isupplierid; ?>"/>
+                        </td>
 
-                            <td class="text-right">
-                                <span>{{ $vendor->vphone }}</span>
-                            {{-- <input type="text" class="editable vendors_phone" maxlength="20" name="" id="" value="{{ $vendor->vphone }}" style="text-align: right;"/> --}}
-                            </td>
+                        <td class="text-left">
+                            <span style=""><?php echo $vendor->vcode; ?></span>
+                            <input type="hidden" name="vendor[<?php echo $i; ?>][vcode]" value="<?php echo $vendor->vcode; ?>"/>
+                            <input type="hidden" name="vendor[<?php echo $i; ?>][isupplierid]" value="<?php echo $vendor->isupplierid; ?>"/>
+                        </td>
 
-                            <td class="text-left">
-                            <span>{{ $vendor->vemail }}</span>
-                            {{-- <input type="email" class="editable vendors_email" maxlength="100" name="" id="" value="{{ $vendor->vemail }}" /> --}}
-                            </td>
+                        <td class="text-left">
+                        <span style="display:none;"><?php echo $vendor->vcompanyname; ?></span>
+                          <input type="text" class="editable vendors_c" maxlength="50" name="vendor[<?php echo $i; ?>][vcompanyname]" id="vendor[<?php echo $i; ?>][vcompanyname]" value="<?php echo $vendor->vcompanyname; ?>" onclick='document.getElementById("vendor[<?php echo $vendor_row; ?>][select]").setAttribute("checked","checked");' />
+                        </td>
 
-                            <td class="text-left">
-                                <span>{{ $vendor->estatus }}</span>
-                            </td>
+                        <td class="text-right">
+                          <input type="text" class="editable vendors_phone" maxlength="20" name="vendor[<?php echo $i; ?>][vphone]" id="vendor[<?php echo $i; ?>][vphone]" value="<?php echo $vendor->vphone; ?>" onclick='document.getElementById("vendor[<?php echo $vendor_row; ?>][select]").setAttribute("checked","checked");' style="text-align: right;"/>
+                        </td>
 
-                            <td class="text-left">
-                            <a href="{{ route('vendors.edit', $vendor->isupplierid ) }}" data-toggle="tooltip" title="Edit" class="btn btn-sm btn-info edit_btn_rotate" ><i class="fa fa-pencil"></i>&nbsp;&nbsp;Edit</a>
-                            </td>
-                        </tr>
+                        <td class="text-left">
+                        <span style="display:none;"><?php echo $vendor->vemail; ?></span>
+                          <input type="email" class="editable vendors_email" maxlength="100" name="vendor[<?php echo $i; ?>][vemail]" id="vendor[<?php echo $i; ?>][vemail]" value="<?php echo $vendor->vemail; ?>" onclick='document.getElementById("vendor[<?php echo $vendor_row; ?>][select]").setAttribute("checked","checked");' />
+                        </td>
+
+                        <td class="text-left">
+                            <span>{{ $vendor->estatus }}</span>
+                        </td>
+
+                        <td class="text-left">
+                          <a href="{{ route('vendors.edit', $vendor->isupplierid ) }}" data-toggle="tooltip" title="Edit" class="btn btn-sm btn-info edit_btn_rotate" ><i class="fa fa-pencil"></i>&nbsp;&nbsp;Edit</a>
+                        </td>
+                      </tr>
+                      <?php $vendor_row++; $i++; ?>
+
                     @endforeach
 
                 </tbody>
@@ -122,7 +129,7 @@
         </div>
       </div>
     </div>
-  </div>
+</div>
 @endsection
 
 @section('scripts')
@@ -131,4 +138,46 @@
         $('#form-vendor').submit();
       })
   </script>
+
+<script type="text/javascript">
+    $(document).on('click', '#save_button', function(event) {
+      event.preventDefault();
+      var edit_url = '<?php echo $data['edit_list']; ?>';
+
+      edit_url = edit_url.replace(/&amp;/g, '&');
+
+      var all_vendor = true;
+
+      $('.vendors_c').each(function(){
+        if($(this).val() == ''){
+          alert('Please Enter Vendor Name');
+          all_vendor = false;
+          return false;
+        }else{
+          all_vendor = true;
+        }
+      });
+
+    //   var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+
+    //   $('.vendors_email').each(function(){
+    //     if($(this).val() != ''){
+    //       if (!emailReg.test($(this).val())) {
+    //         alert('Please Enter Valid Email');
+    //         all_vendor = false;
+    //         return false;
+    //       }else{
+    //         all_vendor = true;
+    //       }
+    //     }
+    //   });
+
+      if(all_vendor == true){
+        $('#form-vendor').attr('action', edit_url);
+        $('#form-vendor').submit();
+        $("div#divLoading").addClass('show');
+      }
+    });
+  </script>
+
 @endsection
